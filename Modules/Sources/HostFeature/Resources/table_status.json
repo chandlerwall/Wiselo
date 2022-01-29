@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "table_id": 1,
+    "status": "dirty",
+    "deleted": true
+  },
+  {
+    "id": 2,
+    "table_id": 1,
+    "status": "seated"
+  },
+  {
+    "id": 3,
+    "table_id": 2,
+    "status": "dirty"
+  },
+  {
+    "id": 4,
+    "table_id": 5,
+    "status": "dirty"
+  },
+  {
+    "id": 5,
+    "table_id": 9,
+    "status": "dirty"
+  },
+  {
+    "id": 6,
+    "table_id": 16,
+    "status": "closed",
+    "deleted": true
+  },
+  {
+    "id": 7,
+    "table_id": 17,
+    "status": "closed"
+  },
+  {
+    "id": 8,
+    "table_id": 18,
+    "status": "closed"
+  },
+  {
+    "id": 9,
+    "table_id": 19,
+    "status": "closed"
+  },
+  {
+    "id": 10,
+    "table_id": 21,
+    "status": "seated"
+  },
+  {
+    "id": 11,
+    "table_id": 22,
+    "status": "seated"
+  }
+]

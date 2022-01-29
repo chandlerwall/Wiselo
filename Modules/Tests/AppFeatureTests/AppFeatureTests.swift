@@ -6,6 +6,6 @@ final class AppFeatureTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(AppFeature().text, "Hello, World!")
+        XCTAssertEqual(AppFeatureState().welcomeMessage, "Hello!")
     }
 }

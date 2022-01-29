@@ -1,0 +1,24 @@
+#if DEBUG
+
+extension SectionPreference {
+    
+}
+
+#endif
+
+// {
+//   "id": 1,
+//   "preference_name": "Booth"
+// },
+// {
+//   "id": 2,
+//   "preference_name": "High Top"
+// },
+// {
+//   "id": 3,
+//   "preference_name": "Indoor"
+// },
+// {
+//   "id": 4,
+//   "preference_name": "Outdoor"
+// }

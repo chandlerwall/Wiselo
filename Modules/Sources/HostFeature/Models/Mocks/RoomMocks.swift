@@ -1,0 +1,19 @@
+#if DEBUG
+
+extension Room {
+}
+
+#endif
+
+// {
+//   "room_id": "1",
+//   "room_name": "Main Dining Room"
+// },
+// {
+//   "room_id": "2",
+//   "room_name": "Patio"
+// },
+// {
+//   "room_id": "3",
+//   "room_name": "Rooftop Lounge"
+// }
