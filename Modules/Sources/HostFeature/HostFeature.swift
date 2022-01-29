@@ -14,6 +14,10 @@ public struct HostFeatureState: Equatable {
 
     var searchText: String = ""
 
+    var tableGroups: [TableGroup] {
+        []
+    }
+
     // available tables
     // search results
 }
@@ -42,7 +46,7 @@ public struct HostEnvironment {
             self.hostService.rooms().map { $0.map(Room.init(from:)) },
             self.hostService.sectionPreferences().map { $0.map(SectionPreference.init(from:)) },
             self.hostService.tables().map { $0.map(Table.init(from:)) },
-            self.hostService.tableStatuses().map { $0.map(TableStatus.init(from:)) }
+            self.hostService.tableStatuses().map { $0.compactMap(TableStatus.init(from:)) }
         )
         .map(RestaurantState.init(rooms:sections:tables:statuses:))
         .eraseToEffect()
@@ -62,7 +66,16 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
             .catchToEffect()
             .map(HostFeatureAction.restaurantResponse)
 
-    case .restaurantResponse(_):
+    case let .restaurantResponse(.success(restaurant)):
+        state.rooms = restaurant.rooms
+        state.sections = restaurant.sections
+        state.statuses = restaurant.statuses
+        state.tables = restaurant.tables
+        // FIXME: Filter data? Remove deleted tables. Ignore closed tables.
+        return .none
+
+    case .restaurantResponse(.failure(_)):
+        // FIXME: Handle errors.
         return .none
 
     case .roomResponse(_):
@@ -74,8 +87,35 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
 }
 
 public struct RestaurantState: Equatable {
+    // FIXME: Move into better location.
     let rooms: [Room]
     let sections: [SectionPreference]
     let tables: [Table]
     let statuses: [TableStatus]
+}
+
+struct TableGroup: Equatable, Identifiable {
+    let type: `Type`
+    let tables: [Table]
+
+    var id: String { self.type.id }
+
+    enum `Type`: Equatable, Identifiable {
+        case firstAvailable
+        case room(Room)
+        case section(SectionPreference)
+
+        var id: String {
+            switch self {
+            case .firstAvailable:
+                return "firstAvailable"
+
+            case let .room(room):
+                return "room" + room.id
+
+            case let .section(section):
+                return "section" + section.id
+            }
+        }
+    }
 }
