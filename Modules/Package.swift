@@ -24,6 +24,10 @@ let package = Package(
             name: "HostFeature",
             targets: ["HostFeature"]
         ),
+        .library(
+            name: "PreviewHelpers",
+            targets: ["PreviewHelpers"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .exact("0.33.1")),
@@ -32,7 +36,10 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
+                "Core",
+                "DesignLanguage",
                 "HostFeature",
+                "PreviewHelpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
@@ -55,10 +62,17 @@ let package = Package(
         .target(
             name: "HostFeature",
             dependencies: [
+                "PreviewHelpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ],
             resources: [
                 .process("Resources"),
+            ]
+        ),
+        .target(
+            name: "PreviewHelpers",
+            dependencies: [
+                "DesignLanguage",
             ]
         ),
     ]

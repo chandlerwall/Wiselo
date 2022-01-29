@@ -1,10 +1,12 @@
 import ComposableArchitecture
+import Core
 
 public struct AppFeatureState: Equatable {
 
     public init() { }
 
     let welcomeMessage: String = "Hello!"
+    var hostStatus: LoadingStatus = .uninitialized
 }
 
 public enum AppFeatureAction: Equatable {
