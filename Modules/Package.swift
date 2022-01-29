@@ -12,6 +12,10 @@ let package = Package(
             name: "AppFeature",
             targets: ["AppFeature"]
         ),
+        .library(
+            name: "HostFeature",
+            targets: ["HostFeature"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", .exact("0.33.1")),
@@ -20,6 +24,7 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
+                "HostFeature",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ],
             resources: [
@@ -29,6 +34,12 @@ let package = Package(
         .testTarget(
             name: "AppFeatureTests",
             dependencies: ["AppFeature"]
+        ),
+        .target(
+            name: "HostFeature",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ]
         ),
     ]
 )

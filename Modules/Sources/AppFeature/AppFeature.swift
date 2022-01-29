@@ -16,6 +16,7 @@ public struct AppEnvironment {
 }
 
 public let appReducer: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment> = Reducer.combine(
+    appReducerCore
 )
 
 private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment> = Reducer
