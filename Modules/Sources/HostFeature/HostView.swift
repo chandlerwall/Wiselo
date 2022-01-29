@@ -5,8 +5,10 @@ import SwiftUI
 public struct HostView: View {
 
     struct ViewState: Equatable {
-        init(state: HostFeatureState) {
+        let tableGroups: [TableGroup]
 
+        init(state: HostFeatureState) {
+            self.tableGroups = state.tableGroups
         }
     }
 
@@ -28,7 +30,7 @@ public struct HostView: View {
                 text: .constant("")
             )
 
-            GroupedTableListView()
+            GroupedTableListView(tableGroups: self.viewStore.tableGroups)
         }
     }
 }

@@ -2,11 +2,11 @@ import SwiftUI
 
 struct TableRowView: View {
 
-    let name: String // FIXME: Consider Table as type once available.
+    let table: Table
 
     var body: some View {
         HStack {
-            Text(self.name)
+            Text(self.table.name)
 
             Text("- Host Name")
 
@@ -19,18 +19,18 @@ struct TableRowView: View {
     }
 }
 
-#if DEBUG
-
-import PreviewHelpers
-
-struct TableRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        Preview {
-            TableRowView(
-                name: "Table Name"
-            )
-        }
-    }
-}
-
-#endif
+//#if DEBUG
+//
+//import PreviewHelpers
+//
+//struct TableRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Preview {
+//            TableRowView(
+//                name: "Table Name"
+//            )
+//        }
+//    }
+//}
+//
+//#endif

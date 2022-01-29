@@ -1,12 +1,15 @@
 import SwiftUI
 
 struct GroupedTableListView: View {
+
+    let tableGroups: [TableGroup]
+
     var body: some View {
         List {
-            ForEach(1...3, id: \.self) { group in
+            ForEach(self.tableGroups) { group in
                 Section {
-                    ForEach(1...5, id: \.self) { table in
-                        TableRowView(name: String(table))
+                    ForEach(group.tables) { table in
+                        TableRowView(table: table)
                     }
                 } header: {
                     // FIXME: Collapsible header
@@ -17,7 +20,7 @@ struct GroupedTableListView: View {
                             .frame(height: 8)
                             .foregroundColor(.mint)
 
-                        Text("Group \(group)") // FIXME: Introduce view for collapsible section header.
+                        Text(group.name) // FIXME: Introduce view for collapsible section header.
 
                         Spacer()
 
@@ -37,17 +40,17 @@ struct GroupedTableListView: View {
     }
 }
 
-#if DEBUG
-
-import PreviewHelpers
-
-struct GroupedTableListView_Previews: PreviewProvider {
-    static var previews: some View {
-        Preview {
-            GroupedTableListView()
-        }
-        .frame(maxHeight: 400)
-    }
-}
-
-#endif
+//#if DEBUG
+//
+//import PreviewHelpers
+//
+//struct GroupedTableListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Preview {
+//            GroupedTableListView()
+//        }
+//        .frame(maxHeight: 400)
+//    }
+//}
+//
+//#endif
