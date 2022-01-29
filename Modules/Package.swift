@@ -57,11 +57,13 @@ let package = Package(
             name: "DesignLanguage",
             dependencies: [
                 "Core",
+                "PreviewHelpers",
             ]
         ),
         .target(
             name: "HostFeature",
             dependencies: [
+                "DesignLanguage",
                 "PreviewHelpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ],
@@ -71,9 +73,7 @@ let package = Package(
         ),
         .target(
             name: "PreviewHelpers",
-            dependencies: [
-                "DesignLanguage",
-            ]
+            dependencies: []
         ),
     ]
 )
