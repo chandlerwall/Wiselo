@@ -26,9 +26,6 @@ let package = Package(
             dependencies: [
                 "HostFeature",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ],
-            resources: [
-                .process("Resources"),
             ]
         ),
         .testTarget(
@@ -39,6 +36,9 @@ let package = Package(
             name: "HostFeature",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ],
+            resources: [
+                .process("Resources"),
             ]
         ),
     ]
