@@ -1,0 +1,94 @@
+{
+  "main": {
+    "id": "d6459655365739d3",
+    "type": "split",
+    "children": [
+      {
+        "id": "76d7da3cc524aa0a",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Draft Plan.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c170860c243e4591",
+    "type": "split",
+    "children": [
+      {
+        "id": "7ab651c32e15a0e6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7bde7a702ed9fc55",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "b62f2f2e4ebc5576",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "035e7297a4c30bef",
+    "type": "split",
+    "children": [
+      {
+        "id": "f877127e6b3326f4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "960dd85dc626560c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Draft Plan.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "76d7da3cc524aa0a",
+  "lastOpenFiles": [
+    "Draft Plan.md"
+  ]
+}

@@ -13,6 +13,14 @@ let package = Package(
             targets: ["AppFeature"]
         ),
         .library(
+            name: "Core",
+            targets: ["Core"]
+        ),
+        .library(
+            name: "DesignLanguage",
+            targets: ["DesignLanguage"]
+        ),
+        .library(
             name: "HostFeature",
             targets: ["HostFeature"]
         ),
@@ -30,7 +38,19 @@ let package = Package(
         ),
         .testTarget(
             name: "AppFeatureTests",
-            dependencies: ["AppFeature"]
+            dependencies: [
+                "AppFeature",
+            ]
+        ),
+        .target(
+            name: "Core",
+            dependencies: []
+        ),
+        .target(
+            name: "DesignLanguage",
+            dependencies: [
+                "Core",
+            ]
         ),
         .target(
             name: "HostFeature",
