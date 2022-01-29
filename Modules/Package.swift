@@ -13,8 +13,20 @@ let package = Package(
             targets: ["AppFeature"]
         ),
         .library(
+            name: "Core",
+            targets: ["Core"]
+        ),
+        .library(
+            name: "DesignLanguage",
+            targets: ["DesignLanguage"]
+        ),
+        .library(
             name: "HostFeature",
             targets: ["HostFeature"]
+        ),
+        .library(
+            name: "PreviewHelpers",
+            targets: ["PreviewHelpers"]
         ),
     ],
     dependencies: [
@@ -24,22 +36,44 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
+                "Core",
+                "DesignLanguage",
                 "HostFeature",
+                "PreviewHelpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
         .testTarget(
             name: "AppFeatureTests",
-            dependencies: ["AppFeature"]
+            dependencies: [
+                "AppFeature",
+            ]
+        ),
+        .target(
+            name: "Core",
+            dependencies: []
+        ),
+        .target(
+            name: "DesignLanguage",
+            dependencies: [
+                "Core",
+                "PreviewHelpers",
+            ]
         ),
         .target(
             name: "HostFeature",
             dependencies: [
+                "DesignLanguage",
+                "PreviewHelpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ],
             resources: [
                 .process("Resources"),
             ]
+        ),
+        .target(
+            name: "PreviewHelpers",
+            dependencies: []
         ),
     ]
 )
