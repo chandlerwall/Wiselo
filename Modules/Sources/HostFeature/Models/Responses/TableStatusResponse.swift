@@ -1,4 +1,4 @@
-struct TableStatusResponse {
+public struct TableStatusResponse {
     let id: String
     let tableId: String // FIXME: Remove or use Table as type. Inverse relationship needed?
     let status: String // FIXME: Use TableStatus type.

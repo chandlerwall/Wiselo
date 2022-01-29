@@ -13,13 +13,20 @@ public struct AppFeatureState: Equatable {
 }
 
 public enum AppFeatureAction: Equatable {
-    case first
+    case didFinishLaunching
 
     case host(HostFeatureAction)
 }
 
 public struct AppEnvironment {
-    public init() { }
+
+    public init(
+        hostService: HostService
+    ) {
+        self.hostService = hostService
+    }
+
+    let hostService: HostService
 }
 
 public let appReducer: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment> = Reducer.combine(
@@ -34,14 +41,25 @@ public let appReducer: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment
 private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment> = Reducer
 { state, action, environment in
     switch action {
-    default:
-        // FIXME: Implement.
+    case .didFinishLaunching:
+        state.host = .init()
+        return .none
+
+    case .host(_):
         return .none
     }
 }
 
 extension AppEnvironment {
-    var host: HostEnvironment {
-        HostEnvironment() // FIXME: Implement environment transform.
-    }
+    var host: HostEnvironment { self.hostService }
 }
+
+#if DEBUG
+
+extension AppEnvironment {
+    static let mock: Self = .init(
+        hostService: .mock
+    )
+}
+
+#endif

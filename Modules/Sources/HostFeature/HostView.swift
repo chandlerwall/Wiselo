@@ -44,7 +44,7 @@ struct HostView_Previews: PreviewProvider {
                 store: Store(
                     initialState: .init(),
                     reducer: hostReducer,
-                    environment: .init() // FIXME: Introduce mock/preview environment.
+                    environment: .mock
                 )
             )
         }

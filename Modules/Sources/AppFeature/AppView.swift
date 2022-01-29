@@ -2,6 +2,7 @@ import ComposableArchitecture
 import Core
 import DesignLanguage
 import SwiftUI
+import HostFeature
 
 public struct AppView: View {
 
@@ -32,7 +33,7 @@ public struct AppView: View {
                 action: { .host($0) }
             )
         ) { hostStore in
-
+            HostView(store: hostStore)
         } else: {
             Text(self.viewStore.welcomeMessage)
                 .font(.largeTitle)
@@ -53,7 +54,7 @@ struct AppView_Previews: PreviewProvider {
                 store: Store(
                     initialState: .init(),
                     reducer: appReducer,
-                    environment: .init() // FIXME: Introduce mock/preview environment.
+                    environment: .mock
                 )
             )
         }

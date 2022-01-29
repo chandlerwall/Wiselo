@@ -1,4 +1,4 @@
-struct SectionPreferenceResponse {
+public struct SectionPreferenceResponse {
     let id: String
     let name: String
 }

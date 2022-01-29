@@ -1,4 +1,4 @@
-struct TableResponse {
+public struct TableResponse {
     let id: String
     let roomId: String // FIXME: Use Room type.
     let name: String

@@ -4,16 +4,23 @@ public struct HostFeatureState: Equatable {
 
     public init() { }
 
-    let welcomeMessage: String = "Hello!"
+    // FIXME: variable; use real state for each property.
+    var rooms: [Room] = []
+    var statuses: [TableStatus] = []
+    var tables: [Table] = []
+
+    var searchText: String = ""
+
+    // available tables
+    // search results
 }
 
 public enum HostFeatureAction: Equatable {
-    case first
+    case reload
+    case didReceiveTableStatus(TableStatus)
 }
 
-public struct HostEnvironment {
-    public init() { }
-}
+public typealias HostEnvironment = HostService
 
 public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, HostEnvironment> = Reducer.combine(
     hostReducerCore
