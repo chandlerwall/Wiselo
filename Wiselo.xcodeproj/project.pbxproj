@@ -8,17 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		CBD4A16F27A4B4A700C4735E /* WiseloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */; };
-		CBD4A17127A4B4A700C4735E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD4A17027A4B4A700C4735E /* ContentView.swift */; };
 		CBD4A17327A4B4A800C4735E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBD4A17227A4B4A800C4735E /* Assets.xcassets */; };
-		CBD4A17627A4B4A800C4735E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBD4A17527A4B4A800C4735E /* Preview Assets.xcassets */; };
+		CBD4A18227A4B77100C4735E /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = CBD4A18127A4B77100C4735E /* AppFeature */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CBD4A16B27A4B4A700C4735E /* Wiselo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wiselo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiseloApp.swift; sourceTree = "<group>"; };
-		CBD4A17027A4B4A700C4735E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CBD4A17227A4B4A800C4735E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CBD4A17527A4B4A800C4735E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CBD4A17F27A4B74B00C4735E /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +24,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBD4A18227A4B77100C4735E /* AppFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -35,8 +34,10 @@
 		CBD4A16227A4B4A600C4735E = {
 			isa = PBXGroup;
 			children = (
-				CBD4A16D27A4B4A700C4735E /* Wiselo */,
+				CBD4A17F27A4B74B00C4735E /* Modules */,
+				CBD4A16D27A4B4A700C4735E /* iOS */,
 				CBD4A16C27A4B4A700C4735E /* Products */,
+				CBD4A18027A4B77100C4735E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -48,23 +49,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CBD4A16D27A4B4A700C4735E /* Wiselo */ = {
+		CBD4A16D27A4B4A700C4735E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */,
-				CBD4A17027A4B4A700C4735E /* ContentView.swift */,
 				CBD4A17227A4B4A800C4735E /* Assets.xcassets */,
-				CBD4A17427A4B4A800C4735E /* Preview Content */,
+				CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */,
 			);
-			path = Wiselo;
+			path = iOS;
 			sourceTree = "<group>";
 		};
-		CBD4A17427A4B4A800C4735E /* Preview Content */ = {
+		CBD4A18027A4B77100C4735E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CBD4A17527A4B4A800C4735E /* Preview Assets.xcassets */,
 			);
-			path = "Preview Content";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +81,9 @@
 			dependencies = (
 			);
 			name = Wiselo;
+			packageProductDependencies = (
+				CBD4A18127A4B77100C4735E /* AppFeature */,
+			);
 			productName = Wiselo;
 			productReference = CBD4A16B27A4B4A700C4735E /* Wiselo.app */;
 			productType = "com.apple.product-type.application";
@@ -125,7 +126,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBD4A17627A4B4A800C4735E /* Preview Assets.xcassets in Resources */,
 				CBD4A17327A4B4A800C4735E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,7 +137,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBD4A17127A4B4A700C4735E /* ContentView.swift in Sources */,
 				CBD4A16F27A4B4A700C4735E /* WiseloApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,7 +178,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -196,13 +195,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Debug;
 		};
@@ -251,12 +251,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -268,25 +269,24 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Wiselo/Preview Content\"";
 				DEVELOPMENT_TEAM = BA9ZUNKF43;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = dog.denim.Wiselo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -297,25 +297,23 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Wiselo/Preview Content\"";
 				DEVELOPMENT_TEAM = BA9ZUNKF43;
-				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = dog.denim.Wiselo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -341,6 +339,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CBD4A18127A4B77100C4735E /* AppFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppFeature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CBD4A16327A4B4A700C4735E /* Project object */;
 }
