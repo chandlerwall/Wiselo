@@ -8,11 +8,11 @@ public struct AppView: View {
 
     struct ViewState: Equatable {
         let welcomeMessage: String
-        let hostStatus: LoadingStatus
+        let status: LoadingStatus
 
         init(state: AppFeatureState) {
             self.welcomeMessage = state.welcomeMessage
-            self.hostStatus = state.hostStatus
+            self.status = state.status
         }
     }
 
@@ -38,7 +38,7 @@ public struct AppView: View {
             Text(self.viewStore.welcomeMessage)
                 .font(.largeTitle)
                 .padding()
-                .loading(self.viewStore.hostStatus)
+                .loading(self.viewStore.status)
         }
     }
 }
@@ -53,8 +53,8 @@ struct AppView_Previews: PreviewProvider {
             AppView(
                 store: Store(
                     initialState: .init(),
-                    reducer: appReducer,
-                    environment: .mock
+                    reducer: Reducer<AppFeatureState, AppFeatureAction, Void>.empty,
+                    environment: ()
                 )
             )
         }

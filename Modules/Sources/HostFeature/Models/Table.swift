@@ -7,9 +7,15 @@ struct Table: Equatable, Identifiable {
     let preferenceIds: Set<String> // FIXME: Use SectionPreference type.
 }
 
-// "table_id": 1,
-// "room_id": 1,
-// "name": "1",
-// "min_capacity": 1,
-// "max_capacity": 2,
-// "preference_ids": [2,3]
+extension Table {
+    init(from response: TableResponse) {
+        self.init(
+            id: String(response.table_id),
+            roomId: String(response.room_id),
+            name: response.name,
+            minCapacity: response.min_capacity,
+            maxCapacity: response.max_capacity,
+            preferenceIds: Set(response.preference_ids.map(String.init))
+        )
+    }
+}

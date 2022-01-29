@@ -5,7 +5,13 @@ public struct TableStatus: Identifiable, Equatable {
     let deleted: Bool // FIXME: Consider renaming to isDeleted.
 }
 
-// "id": 1,
-// "table_id": 1,
-// "status": "dirty",
-// "deleted": true
+extension TableStatus {
+    init(from response: TableStatusResponse) {
+        self.init(
+            id: String(response.id),
+            tableId: String(response.table_id),
+            status: response.status,
+            deleted: response.deleted ?? false
+        )
+    }
+}

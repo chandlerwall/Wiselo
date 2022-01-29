@@ -43,8 +43,8 @@ struct HostView_Previews: PreviewProvider {
             HostView(
                 store: Store(
                     initialState: .init(),
-                    reducer: hostReducer,
-                    environment: .mock
+                    reducer: Reducer<HostFeatureState, HostFeatureAction, Void>.empty,
+                    environment: ()
                 )
             )
         }

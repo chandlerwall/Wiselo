@@ -7,13 +7,14 @@ public struct AppFeatureState: Equatable {
     public init() { }
 
     let welcomeMessage: String = "Hello!"
-    var hostStatus: LoadingStatus = .uninitialized
+    var status: LoadingStatus = .uninitialized
 
     var host: HostFeatureState?
 }
 
 public enum AppFeatureAction: Equatable {
     case didFinishLaunching
+    case restaurantResponse(Result<RestaurantState, APIError>)
 
     case host(HostFeatureAction)
 }
@@ -21,12 +22,15 @@ public enum AppFeatureAction: Equatable {
 public struct AppEnvironment {
 
     public init(
-        hostService: HostService
+        hostService: HostService,
+        mainQueue: AnySchedulerOf<DispatchQueue>
     ) {
         self.hostService = hostService
+        self.mainQueue = mainQueue
     }
 
     let hostService: HostService
+    let mainQueue: AnySchedulerOf<DispatchQueue>
 }
 
 public let appReducer: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment> = Reducer.combine(
@@ -37,12 +41,18 @@ public let appReducer: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment
     ),
     appReducerCore
 )
+    .debug()
 
 private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment> = Reducer
 { state, action, environment in
     switch action {
     case .didFinishLaunching:
+        state.status = .loading
         state.host = .init()
+        return Effect(value: .host(.reload))
+
+    case .restaurantResponse(_):
+        // FIXME: Implement
         return .none
 
     case .host(_):
@@ -51,15 +61,5 @@ private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnviro
 }
 
 extension AppEnvironment {
-    var host: HostEnvironment { self.hostService }
+    var host: HostEnvironment { .init(hostService: self.hostService, mainQueue: self.mainQueue) }
 }
-
-#if DEBUG
-
-extension AppEnvironment {
-    static let mock: Self = .init(
-        hostService: .mock
-    )
-}
-
-#endif

@@ -12,7 +12,8 @@ private struct LoadingViewModifier: ViewModifier {
             content
 
         case .loading:
-            content
+            ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
         case .done:
             content

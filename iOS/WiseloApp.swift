@@ -33,6 +33,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
 extension AppEnvironment {
     static var live: Self = .init(
-        hostService: .live
+        hostService: .init(),
+        mainQueue: .main
     )
 }

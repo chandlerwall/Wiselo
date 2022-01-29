@@ -2,32 +2,86 @@ import ComposableArchitecture
 import Core
 
 public struct HostService {
-    public let rooms: () -> Effect<[RoomResponse], APIError>
-    public let sectionPreferences: () -> Effect<[SectionPreferenceResponse], APIError>
-    public let tables: () -> Effect<[TableResponse], APIError>
-    public let tableStatuses: () -> Effect<[TableStatusResponse], APIError>
+
+    public init() { }
+
+    func rooms() -> Effect<[RoomResponse], APIError> {
+        Effect.future { callback in
+            guard
+                let url = Bundle.module.url(forResource: "rooms", withExtension: "json"),
+                let data = try? Data(contentsOf: url)
+            else {
+                callback(.failure(.response))
+                return
+            }
+
+            guard let rooms = try? JSONDecoder().decode([RoomResponse].self, from: data)
+            else {
+                callback(.failure(.decode))
+                return
+            }
+
+            callback(.success(rooms))
+        }
+    }
+
+    func sectionPreferences() -> Effect<[SectionPreferenceResponse], APIError> {
+        Effect.future { callback in
+            guard
+                let url = Bundle.module.url(forResource: "section_preferences", withExtension: "json"),
+                let data = try? Data(contentsOf: url)
+            else {
+                callback(.failure(.response))
+                return
+            }
+
+            guard let preferences = try? JSONDecoder().decode([SectionPreferenceResponse].self, from: data)
+            else {
+                callback(.failure(.decode))
+                return
+            }
+
+            callback(.success(preferences))
+        }
+    }
+
+    func tables() -> Effect<[TableResponse], APIError> {
+        Effect.future { callback in
+            guard
+                let url = Bundle.module.url(forResource: "tables", withExtension: "json"),
+                let data = try? Data(contentsOf: url)
+            else {
+                callback(.failure(.response))
+                return
+            }
+
+            guard let tables = try? JSONDecoder().decode([TableResponse].self, from: data)
+            else {
+                callback(.failure(.decode))
+                return
+            }
+
+            callback(.success(tables))
+        }
+    }
+
+    func tableStatuses() -> Effect<[TableStatusResponse], APIError> {
+        Effect.future { callback in
+            guard
+                let url = Bundle.module.url(forResource: "table_status", withExtension: "json"),
+                let data = try? Data(contentsOf: url)
+            else {
+                callback(.failure(.response))
+                return
+            }
+
+            guard let statuses = try? JSONDecoder().decode([TableStatusResponse].self, from: data)
+            else {
+                callback(.failure(.decode))
+                return
+            }
+
+            callback(.success(statuses))
+        }
+    }
 }
-
-extension HostService {
-    // FIXME: Load data from persistent storage and/or initialize from embedded resource file.
-    public static let live: Self = .init(
-        rooms: { Effect(value: []) },
-        sectionPreferences: { Effect(value: []) },
-        tables: { Effect(value: []) },
-        tableStatuses: { Effect(value: []) }
-    )
-}
-
-#if DEBUG
-
-extension HostEnvironment {
-    // FIXME: Include mock values once available.
-    public static let mock: Self = .init(
-        rooms: { Effect(value: []) },
-        sectionPreferences: { Effect(value: []) },
-        tables: { Effect(value: []) },
-        tableStatuses: { Effect(value: []) }
-    )
-}
-
-#endif
