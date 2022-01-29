@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-public struct Preview<Content>: View where Content: View {
+public struct DevicePreview<Content>: View where Content: View {
 
     let content: Content
 
@@ -22,14 +22,13 @@ public struct Preview<Content>: View where Content: View {
                 .environment(\.colorScheme, .dark)
                 .preferredColorScheme(.dark)
         }
-        .previewLayout(.sizeThatFits)
     }
 }
 
-struct Preview_Previews: PreviewProvider {
+struct DevicePreview_Previews: PreviewProvider {
     static var previews: some View {
-        Preview {
-            Text("Preview")
+        DevicePreview {
+            Text("Device Preview")
         }
     }
 }

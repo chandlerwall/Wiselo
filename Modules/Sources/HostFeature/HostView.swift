@@ -9,4 +9,16 @@ public struct HostView: View {
     }
 }
 
-// FIXME: Preview.
+#if DEBUG
+
+import PreviewHelpers
+
+struct HostView_Previews: PreviewProvider {
+    static var previews: some View {
+        Preview {
+            HostView()
+        }
+    }
+}
+
+#endif
