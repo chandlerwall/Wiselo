@@ -2,9 +2,9 @@ struct Table: Equatable, Identifiable {
     let id: String
     let roomId: String // FIXME: Use Room type.
     let name: String
-    let minCapacity: Int
+    let minCapacity: Int // FIXME: Consider Range for capacity
     let maxCapacity: Int
-    let preferenceIds: [String] // FIXME: Use SectionPreference type.
+    let preferenceIds: Set<String> // FIXME: Use SectionPreference type.
 }
 
 // "table_id": 1,
