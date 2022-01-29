@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		CBD4A16F27A4B4A700C4735E /* WiseloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */; };
-		CBD4A17127A4B4A700C4735E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD4A17027A4B4A700C4735E /* ContentView.swift */; };
 		CBD4A17327A4B4A800C4735E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBD4A17227A4B4A800C4735E /* Assets.xcassets */; };
 		CBD4A18227A4B77100C4735E /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = CBD4A18127A4B77100C4735E /* AppFeature */; };
 /* End PBXBuildFile section */
@@ -16,7 +15,6 @@
 /* Begin PBXFileReference section */
 		CBD4A16B27A4B4A700C4735E /* Wiselo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wiselo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiseloApp.swift; sourceTree = "<group>"; };
-		CBD4A17027A4B4A700C4735E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CBD4A17227A4B4A800C4735E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBD4A17F27A4B74B00C4735E /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,9 +52,8 @@
 		CBD4A16D27A4B4A700C4735E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */,
-				CBD4A17027A4B4A700C4735E /* ContentView.swift */,
 				CBD4A17227A4B4A800C4735E /* Assets.xcassets */,
+				CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -140,7 +137,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBD4A17127A4B4A700C4735E /* ContentView.swift in Sources */,
 				CBD4A16F27A4B4A700C4735E /* WiseloApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
