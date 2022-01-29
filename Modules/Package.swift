@@ -21,6 +21,9 @@ let package = Package(
             name: "AppFeature",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+            ],
+            resources: [
+                .process("Resources"),
             ]
         ),
         .testTarget(
