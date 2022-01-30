@@ -1,15 +1,8 @@
-struct TableResponse {
-    let id: String
-    let roomId: String // FIXME: Use Room type.
+struct TableResponse: Codable {
+    let table_id: Int
+    let room_id: Int
     let name: String
-    let minCapacity: Int
-    let maxCapacity: Int
-    let preferenceIds: [String] // FIXME: Use SectionPreference type.
+    let min_capacity: Int
+    let max_capacity: Int
+    let preference_ids: [Int]
 }
-
-// "table_id": 1,
-// "room_id": 1,
-// "name": "1",
-// "min_capacity": 1,
-// "max_capacity": 2,
-// "preference_ids": [2,3]

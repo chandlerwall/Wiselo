@@ -5,8 +5,10 @@ import SwiftUI
 public struct HostView: View {
 
     struct ViewState: Equatable {
-        init(state: HostFeatureState) {
+        let tableGroups: [TableGroup]
 
+        init(state: HostFeatureState) {
+            self.tableGroups = state.tableGroups
         }
     }
 
@@ -27,8 +29,9 @@ public struct HostView: View {
                 placeholder: "# of Guests",
                 text: .constant("")
             )
+            .padding()
 
-            GroupedTableListView()
+            TableGroupListView(tableGroups: self.viewStore.tableGroups)
         }
     }
 }
@@ -42,9 +45,9 @@ struct HostView_Previews: PreviewProvider {
         DevicePreview {
             HostView(
                 store: Store(
-                    initialState: .init(),
-                    reducer: hostReducer,
-                    environment: .init() // FIXME: Introduce mock/preview environment.
+                    initialState: .mock,
+                    reducer: Reducer<HostFeatureState, HostFeatureAction, Void>.empty,
+                    environment: ()
                 )
             )
         }

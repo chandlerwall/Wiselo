@@ -2,16 +2,17 @@ import ComposableArchitecture
 import Core
 import DesignLanguage
 import SwiftUI
+import HostFeature
 
 public struct AppView: View {
 
     struct ViewState: Equatable {
         let welcomeMessage: String
-        let hostStatus: LoadingStatus
+        let status: LoadingStatus
 
         init(state: AppFeatureState) {
             self.welcomeMessage = state.welcomeMessage
-            self.hostStatus = state.hostStatus
+            self.status = state.status
         }
     }
 
@@ -32,12 +33,12 @@ public struct AppView: View {
                 action: { .host($0) }
             )
         ) { hostStore in
-
+            HostView(store: hostStore)
         } else: {
             Text(self.viewStore.welcomeMessage)
                 .font(.largeTitle)
                 .padding()
-                .loading(self.viewStore.hostStatus)
+                .loading(self.viewStore.status)
         }
     }
 }
@@ -52,8 +53,8 @@ struct AppView_Previews: PreviewProvider {
             AppView(
                 store: Store(
                     initialState: .init(),
-                    reducer: appReducer,
-                    environment: .init() // FIXME: Introduce mock/preview environment.
+                    reducer: Reducer<AppFeatureState, AppFeatureAction, Void>.empty,
+                    environment: ()
                 )
             )
         }

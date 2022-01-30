@@ -26,10 +26,14 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        ViewStore(self.store).send(.didFinishLaunching)
         return true
     }
 }
 
 extension AppEnvironment {
-    static var live: Self = .init()
+    static var live: Self = .init(
+        hostService: .init(),
+        mainQueue: .main
+    )
 }
