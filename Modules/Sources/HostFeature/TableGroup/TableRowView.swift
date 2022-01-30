@@ -30,7 +30,7 @@ struct TableRowView: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 5)
-                .foregroundColor(self.isSelected ? .accentColor : Color(UIColor.secondarySystemFill))
+                .foregroundColor(self.isSelected ? Color.blue.opacity(0.6) : Color(UIColor.secondarySystemFill))
         }
     }
 }

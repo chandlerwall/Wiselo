@@ -44,6 +44,7 @@ public struct HostView: View {
 
                     Button(action: { self.inputIsFocused = false }) {
                         Text("Done")
+                            .font(.subheadline)
                     }
                 }
             }
@@ -60,6 +61,7 @@ public struct HostView: View {
                 onToggleGroupExpansion: { groupId in self.viewStore.send(.toggleGroupExpansion(groupId)) },
                 onSelectTable: { groupId, tableId in self.viewStore.send(.selectTable(groupId, tableId)) }
             )
+            .gesture(DragGesture().onChanged { _ in self.inputIsFocused = false }) // FIXME: Document.
         }
         .background(Color(UIColor.systemGroupedBackground))
     }
