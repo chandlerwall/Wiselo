@@ -3,21 +3,44 @@ import SwiftUI
 struct TableGroupListView: View {
 
     let tableGroups: [TableGroup]
+    let selection: String?
+
+    let onToggleGroupExpansion: (TableGroup.ID) -> Void
+    let onSelectTable: (TableGroup.ID, Table.ID) -> Void
 
     var body: some View {
         List {
             ForEach(self.tableGroups) { group in
                 Section {
-                    ForEach(group.tables) { table in
-                        TableRowView(table: table)
+                    if group.isExpanded {
+                        ForEach(group.tables) { table in
+                            Button(action: { self.onSelectTable(group.id, table.id) }) {
+                                TableRowView(
+                                    table: table,
+                                    isSelected: self.selection == "\(group.id)\(table.id)"
+                                )
+                                .padding(.horizontal)
+                                .padding(.bottom)
+//                                .contentShape(Rectangle())
+                            }
+                            .listRowInsets(.zero)
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
+                        }
                     }
                 } header: {
-                    // FIXME: Collapsible header
-                    TableGroupSectionHeaderView(tableGroup: group)
+                    Button(action: { self.onToggleGroupExpansion(group.id) }) {
+                        TableGroupSectionHeaderView(tableGroup: group)
+                            .padding(.horizontal)
+                            .contentShape(Rectangle())
+                    }
+                    .listRowInsets(.zero)
                 }
+                .listSectionSeparator(.visible, edges: .bottom)
+                .textCase(nil)
             }
         }
-        .listStyle(.plain)
+        .listStyle(.grouped)
     }
 }
 
@@ -34,10 +57,13 @@ struct GroupedTableListView_Previews: PreviewProvider {
                     .mockRoomMain,
                     .mockRoomPatio,
                     .mockSectionIndoor
-                ]
+                ],
+                selection: nil,
+                onToggleGroupExpansion: { _ in },
+                onSelectTable: { _, _ in }
             )
         }
-        .frame(maxHeight: 500)
+        .frame(maxHeight: 600)
     }
 }
 

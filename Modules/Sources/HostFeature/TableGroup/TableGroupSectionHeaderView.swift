@@ -5,6 +5,7 @@ struct TableGroupSectionHeaderView: View {
     let tableGroup: TableGroup
 
     var body: some View {
+
         let count = self.tableGroup.tables.count
 
         HStack {
@@ -12,17 +13,16 @@ struct TableGroupSectionHeaderView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 8)
-                .foregroundColor(self.color) // FIXME: Deterministic color based on type
+                .foregroundColor(self.color)
 
-            Text(self.tableGroup.name) // FIXME: Introduce view for collapsible section header.
+            Text(self.tableGroup.name)
                 .foregroundColor(.secondary)
                 .font(.headline)
 
             Spacer()
 
-            // FIXME: If no options available, show wait time.
             if count > 0 {
-                Text("\(count) \(count == 1 ? "option" : "options")") // FIXME: Ensure that count accurately reflects filter criteria.
+                Text("\(count) \(count == 1 ? "option" : "options")")
                     .foregroundColor(.green)
             } else {
                 VStack(alignment: .trailing) {
@@ -35,11 +35,12 @@ struct TableGroupSectionHeaderView: View {
                 .foregroundColor(.red)
             }
 
-            Image(systemName: "chevron.down") // FIXME: Dynamic icon based on collapse state
+            Image(systemName: "chevron.down")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 10)
-                .foregroundColor(.primary) // FIXME: dynamic color (based on status)
+                .rotationEffect(self.tableGroup.isExpanded ? .degrees(180) : .zero)
+                .foregroundColor(.primary)
         }
     }
 

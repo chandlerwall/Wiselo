@@ -1,18 +1,27 @@
-struct TableGroup: Equatable, Identifiable {
+public struct TableGroup: Equatable, Identifiable {
+
+    public init(
+        type: `Type`,
+        tables: [Table]
+    ) {
+        self.type = type
+        self.tables = tables
+        self.isExpanded = type == .firstAvailable || tables.count == 1
+    }
+
     let type: `Type` // FIXME: private
     let tables: [Table]
+    var isExpanded: Bool
 
-    // FIXME: var isExpanded (default to true for the first available)
-
-    var id: String { self.type.id }
+    public var id: String { self.type.id }
     var name: String { self.type.name }
 
-    enum `Type`: Equatable, Identifiable {
+    public enum `Type`: Equatable, Identifiable {
         case firstAvailable
         case room(Room)
         case section(SectionPreference)
 
-        var id: String {
+        public var id: String {
             switch self {
             case .firstAvailable:
                 return "firstAvailable"
@@ -44,7 +53,7 @@ struct TableGroup: Equatable, Identifiable {
 
 extension TableGroup {
     static let mockFirstAvailable = TableGroup(type: .firstAvailable, tables: [.mockTable1])
-    static let mockRoomMain = TableGroup(type: .room(.mockMainDining), tables: [.mockTable1, .mockTable2])
+    static let mockRoomMain = TableGroup(type: .room(.mockMainDining), tables: [.mockTable1, .mockTable2, .mockTable9])
     static let mockRoomPatio = TableGroup(type: .room(.mockPatio), tables: [.mockTable8, .mockTableR1])
     static let mockSectionIndoor = TableGroup(type: .section(.mockIndoor), tables: [.mockTable1])
 }

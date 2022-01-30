@@ -14,47 +14,64 @@ public struct HostFeatureState: Equatable {
         self.sections = sections
         self.tables = tables
         self.searchText = searchText
+
+        self.filterTableGroups()
     }
 
     var rooms: [Room]
     var sections: [SectionPreference] // FIXME: maybe rename to include preferences in name
 //    var statuses: [TableStatus] = [] // FIXME: Should statuses be persisted with feature state?
-
     var tables: [Table]
+    var selection: String?
+    private(set) var tableGroups: [TableGroup] = []
 
     var searchText: String
 
-    var tableGroups: [TableGroup] {
+    fileprivate mutating func filterTableGroups() {
+        self.selection = nil
+        self.tableGroups = self._tableGroups
+    }
+
+    fileprivate mutating func toggleTableGroupExpansion(_ groupId: TableGroup.ID) {
+        guard let index = self.tableGroups.firstIndex(where: { $0.id == groupId })
+        else { return }
+
+        self.tableGroups[index].isExpanded.toggle()
+    }
+
+    private var _tableGroups: [TableGroup] {
         // FIXME: Consider sorting logic (sort by total available?)
         [self.firstAvailable] + self.tablesByRoom + self.tablesBySection
     }
 
-    private var firstAvailable: TableGroup {
+    private var validTables: [Table] {
         let partySize = Int(self.searchText) ?? 0
-        let tables = partySize > 0
-            ? self.tables.filter { $0.minCapacity >= partySize && $0.maxCapacity <= partySize }
+        return partySize > 0
+            ? self.tables.filter { partySize >= $0.minCapacity && partySize <= $0.maxCapacity }
             : self.tables
+    }
 
-        // FIXME: Limit to top 3 tables. Sort before prefixing.
-        let availableTables = tables.filter(\.status.isAvailable)
-
-        return TableGroup(type: .firstAvailable, tables: availableTables)
+    private var firstAvailable: TableGroup {
+        return TableGroup(
+            type: .firstAvailable,
+            tables: Array(self.validTables.suggested.prefix(3))
+        )
     }
 
     private var tablesByRoom: [TableGroup] {
-        self.rooms.map { room in
+        self.rooms.sorted(on: \.name).map { room in
             TableGroup(
                 type: .room(room),
-                tables: self.tables.filter { $0.roomId == room.id }
+                tables: self.validTables.filter { $0.roomId == room.id }.suggested
             )
         }
     }
 
     private var tablesBySection: [TableGroup] {
-        self.sections.map { section in
+        self.sections.sorted(on: \.name).map { section in
             TableGroup(
                 type: .section(section),
-                tables: self.tables.filter { $0.preferenceIds.contains(section.id) }
+                tables: self.validTables.filter { $0.preferenceIds.contains(section.id) }.suggested
             )
         }
     }
@@ -63,6 +80,9 @@ public struct HostFeatureState: Equatable {
 public enum HostFeatureAction: Equatable {
     case reload
     case restaurantResponse(Result<Restaurant, APIError>)
+    case setSearchText(String)
+    case toggleGroupExpansion(TableGroup.ID)
+    case selectTable(TableGroup.ID, Table.ID)
     case didReceiveTableStatus(TableStatus)
 }
 
@@ -104,16 +124,30 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
             .map(HostFeatureAction.restaurantResponse)
 
     case let .restaurantResponse(.success(restaurant)):
-        // FIXME: Prefer sorting in View if practical (more consistent results between features and previews).
-        state.rooms = restaurant.rooms.sorted(on: \.name)
-        state.sections = restaurant.sections.sorted(on: \.name)
+        state.rooms = restaurant.rooms
+        state.sections = restaurant.sections
 //        state.statuses = restaurant.statuses
-        state.tables = restaurant.tables.sorted(on: \.name) // FIXME: tables should be sorted on capacity
-        // FIXME: Filter data? Remove deleted tables. Ignore closed tables.
+        state.tables = restaurant.tables
+        state.filterTableGroups()
         return .none
 
     case .restaurantResponse(.failure(_)):
         // FIXME: Handle errors.
+        return .none
+
+    case let .setSearchText(searchText):
+        // FIXME: Only allow digits.
+        state.searchText = searchText
+        state.filterTableGroups()
+        return .none
+
+    case let .toggleGroupExpansion(groupId):
+        state.toggleTableGroupExpansion(groupId)
+        return .none
+
+    case let .selectTable(groupId, tableId):
+        let selectionId = groupId + tableId
+        state.selection = selectionId == state.selection ? nil : selectionId // FIXME: Document; clear selection on second tap
         return .none
 
     case .didReceiveTableStatus(_):
@@ -128,7 +162,8 @@ extension HostFeatureState {
     static let mock = HostFeatureState(
         rooms: .mock,
         sections: .mock,
-        tables: .mock
+        tables: .mock,
+        searchText: "3"
     )
 }
 
