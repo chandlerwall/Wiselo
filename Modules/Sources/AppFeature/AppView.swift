@@ -1,8 +1,8 @@
 import ComposableArchitecture
 import Core
 import DesignLanguage
-import SwiftUI
 import HostFeature
+import SwiftUI
 
 public struct AppView: View {
 
@@ -27,6 +27,7 @@ public struct AppView: View {
     }
 
     public var body: some View {
+        // FIXME: Implement loading/startup message or remove unnecessary hierarchy.
         IfLetStore(
             self.store.scope(
                 state: \.host,

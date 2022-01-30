@@ -108,11 +108,7 @@ public struct HostEnvironment {
     }
 }
 
-public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, HostEnvironment> = Reducer.combine(
-    hostReducerCore
-)
-
-private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEnvironment> = Reducer
+public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, HostEnvironment> = Reducer
 { state, action, environment in
     switch action {
     case .reload:
@@ -124,7 +120,6 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
     case let .restaurantResponse(.success(restaurant)):
         state.rooms = restaurant.rooms
         state.sections = restaurant.sections
-//        state.statuses = restaurant.statuses
         state.tables = restaurant.tables
         state.filterTableGroups()
         return .none
@@ -152,7 +147,6 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
         return .none
     }
 }
-
 
 #if DEBUG
 

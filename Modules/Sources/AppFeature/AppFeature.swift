@@ -41,7 +41,6 @@ public let appReducer: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment
     ),
     appReducerCore
 )
-    .debug()
 
 private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment> = Reducer
 { state, action, environment in
@@ -61,5 +60,10 @@ private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnviro
 }
 
 extension AppEnvironment {
-    var host: HostEnvironment { .init(hostService: self.hostService, mainQueue: self.mainQueue) }
+    var host: HostEnvironment {
+        .init(
+            hostService: self.hostService,
+            mainQueue: self.mainQueue
+        )
+    }
 }
