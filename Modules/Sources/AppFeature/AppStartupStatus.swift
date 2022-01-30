@@ -1,4 +1,4 @@
-enum StartupStatus: Equatable {
+enum AppStartupStatus: Equatable {
     case uninitialized
     case initializing
     case restoring

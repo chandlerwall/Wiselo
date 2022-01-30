@@ -6,10 +6,12 @@ import SwiftUI
 public struct AppView: View {
 
     struct ViewState: Equatable {
-        let startupStatus: StartupStatus
+        let status: AppStartupStatus
+        let user: User?
 
         init(state: AppFeatureState) {
-            self.startupStatus = state.startupStatus
+            self.status = state.status
+            self.user = state.user
         }
     }
 
@@ -25,27 +27,31 @@ public struct AppView: View {
 
     public var body: some View {
         ZStack {
-            switch self.viewStore.startupStatus {
+            switch self.viewStore.status {
             case .uninitialized, .initializing, .restoring:
                 Image(systemName: "sparkles")
                     .font(.largeTitle)
 
             case .refreshing, .preparing:
                 VStack {
-                    Text("Welcome back, firstName!")
-                        .padding(.horizontal)
+                    if let user = self.viewStore.user {
+                        Text("Welcome back, \(user.name)!")
+                            .padding(.horizontal)
+                    } else {
+                        Text("Welcome back!")
+                            .padding(.horizontal)
+                    }
 
-                    Group {
-                    if self.viewStore.startupStatus == .refreshing {
+                    if self.viewStore.status == .refreshing {
                         ProgressView()
                             .padding()
+                            .frame(height: 65)
                     } else {
                         Image(systemName: "checkmark.circle")
                             .foregroundColor(.green)
                             .padding()
+                            .frame(height: 65)
                     }
-                    }
-                    .frame(height: 50)
                 }
                 .font(.largeTitle)
                 .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
@@ -82,11 +88,14 @@ public struct AppView: View {
 
 import PreviewHelpers
 
+// FIXME: Document AppFeature scheme.
+
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
-        func buildPreview(_ status: StartupStatus) -> some View {
+        func buildPreview(_ status: AppStartupStatus) -> some View {
             var initialState = AppFeatureState()
-            initialState.startupStatus = status
+            initialState.status = status
+            initialState.user = .init(name: "Sarah")
             initialState.host = .mock
 
             // FIXME: Document ZStack.
