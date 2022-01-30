@@ -4,6 +4,7 @@
 - [ ] Review and remove FIXME comments
 - [ ] Update documentation, including code comments regarding extensibility
 - [ ] Include comments regarding persistence and real-time updates to table status
+- [ ] Create repo README with high level tour of the project; include a section with Xcode pitfalls
 
 ##### Next, Next Steps
 - [x] Connect `TextField` with party size to reducer

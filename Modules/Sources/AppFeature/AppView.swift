@@ -66,7 +66,9 @@ public struct AppView: View {
                     HostView(store: hostStore)
                         .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
                 } else: {
-                    Spacer() // FIXME: Not spacer
+                    // TODO: This code cannot be reached.
+                    // - When/if this path is possible, reconsider the use of `Spacer`.
+                    Spacer()
                 }
 
             case let .error(message):
@@ -88,8 +90,6 @@ public struct AppView: View {
 
 import PreviewHelpers
 
-// FIXME: Document AppFeature scheme.
-
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         func buildPreview(_ status: AppStartupStatus) -> some View {
@@ -98,7 +98,6 @@ struct AppView_Previews: PreviewProvider {
             initialState.user = .init(name: "Sarah")
             initialState.host = .mock
 
-            // FIXME: Document ZStack.
             return AppView(
                 store: Store(
                     initialState: initialState,

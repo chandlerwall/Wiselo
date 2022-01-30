@@ -75,7 +75,7 @@ extension Table.Status {
 }
 
 extension Array where Element == Table {
-    // FIXME: Document; consider renaming to suggestions or topSuggested
+    /// Returns an array of available tables sorted as user-facing suggestions.
     var suggested: Self {
         self.filter(\.status.isAvailable)
             .sorted(by: Table.suggestedTablesSort(lhs:rhs:))
