@@ -49,7 +49,7 @@ public let appReducer: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment
     hostReducer.optional().pullback(
         state: \AppFeatureState.host,
         action: /AppFeatureAction.host,
-        environment: \.host
+        environment: { _ in }
     ),
     appReducerCore
 )
@@ -77,14 +77,5 @@ private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnviro
 
     case .host(_):
         return .none
-    }
-}
-
-extension AppEnvironment {
-    var host: HostEnvironment {
-        .init(
-            hostService: self.hostService,
-            mainQueue: self.mainQueue
-        )
     }
 }

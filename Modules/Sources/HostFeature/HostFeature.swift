@@ -88,58 +88,17 @@ public struct HostFeatureState: Equatable {
 }
 
 public enum HostFeatureAction: Equatable {
-    case reload
-    case restaurantResponse(Result<Restaurant, APIError>)
     case setSearchText(String)
     case toggleGroupExpansion(TableGroup.ID)
     case selectTable(TableGroup.ID, Table.ID)
     case didReceiveTableStatus(TableStatus)
 }
 
-public struct HostEnvironment {
-    public init(
-        hostService: HostService,
-        mainQueue: AnySchedulerOf<DispatchQueue>
-    ) {
-        self.hostService = hostService
-        self.mainQueue = mainQueue
-    }
+public typealias HostEnvironment = Void
 
-    let hostService: HostService
-    let mainQueue: AnySchedulerOf<DispatchQueue>
-
-    func restaurant() -> Effect<Restaurant, APIError> {
-        Publishers.Zip4(
-            self.hostService.rooms(),
-            self.hostService.sectionPreferences(),
-            self.hostService.tables(),
-            self.hostService.tableStatuses()
-        )
-        .map(Restaurant.init(from:))
-        .eraseToEffect()
-    }
-}
-
-public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, HostEnvironment> = Reducer
-{ state, action, environment in
+public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, Void> = Reducer
+{ state, action, _ in
     switch action {
-    case .reload:
-        return environment.restaurant()
-            .receive(on: environment.mainQueue)
-            .catchToEffect()
-            .map(HostFeatureAction.restaurantResponse)
-
-    case let .restaurantResponse(.success(restaurant)):
-        state.rooms = restaurant.rooms
-        state.sections = restaurant.sections
-        state.tables = restaurant.tables
-        state.filterTableGroups()
-        return .none
-
-    case .restaurantResponse(.failure(_)):
-        // FIXME: Handle errors.
-        return .none
-
     case let .setSearchText(searchText):
         // FIXME: Document improvement; Only allow digits.
         state.searchText = searchText
@@ -156,6 +115,7 @@ public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, HostEnviron
         return .none
 
     case .didReceiveTableStatus(_):
+        // FIXME: Document
         return .none
     }
 }
