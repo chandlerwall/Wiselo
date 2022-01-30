@@ -3,6 +3,10 @@ import SwiftUI
 struct TableGroupListView: View {
 
     let tableGroups: [TableGroup]
+    let selection: String?
+
+    let onToggleGroupExpansion: (TableGroup.ID) -> Void
+    let onSelectTable: (TableGroup.ID, Table.ID) -> Void
 
     var body: some View {
         List {
@@ -10,19 +14,27 @@ struct TableGroupListView: View {
                 Section {
                     if group.isExpanded {
                         ForEach(group.tables) { table in
-                            TableRowView(table: table)
+                            Button(action: { self.onSelectTable(group.id, table.id) }) {
+                                TableRowView(
+                                    table: table,
+                                    isSelected: self.selection == "\(group.id)\(table.id)"
+                                )
                                 .padding(.horizontal)
                                 .padding(.bottom)
-                                .listRowInsets(.zero)
-                                .listRowSeparator(.hidden)
-                                .listRowBackground(Color.clear)
+//                                .contentShape(Rectangle())
+                            }
+                            .listRowInsets(.zero)
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
                         }
                     }
                 } header: {
-                    // FIXME: Collapsible header
-                    TableGroupSectionHeaderView(tableGroup: group)
-                        .padding(.horizontal)
-                        .listRowInsets(.zero)
+                    Button(action: { self.onToggleGroupExpansion(group.id) }) {
+                        TableGroupSectionHeaderView(tableGroup: group)
+                            .padding(.horizontal)
+                            .contentShape(Rectangle())
+                    }
+                    .listRowInsets(.zero)
                 }
                 .listSectionSeparator(.visible, edges: .bottom)
                 .textCase(nil)
@@ -45,7 +57,10 @@ struct GroupedTableListView_Previews: PreviewProvider {
                     .mockRoomMain,
                     .mockRoomPatio,
                     .mockSectionIndoor
-                ]
+                ],
+                selection: nil,
+                onToggleGroupExpansion: { _ in },
+                onSelectTable: { _, _ in }
             )
         }
         .frame(maxHeight: 600)

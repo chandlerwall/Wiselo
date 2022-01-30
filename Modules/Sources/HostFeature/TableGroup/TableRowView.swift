@@ -3,6 +3,7 @@ import SwiftUI
 struct TableRowView: View {
 
     let table: Table
+    let isSelected: Bool
 
     var body: some View {
         HStack {
@@ -15,7 +16,7 @@ struct TableRowView: View {
                         .font(.caption)
                 }
             }
-            .foregroundColor(.secondary)
+            .foregroundColor(self.isSelected ? .primary : .secondary)
 
             Spacer()
 
@@ -29,7 +30,7 @@ struct TableRowView: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 5)
-                .foregroundColor(Color(UIColor.secondarySystemFill))
+                .foregroundColor(self.isSelected ? .accentColor : Color(UIColor.secondarySystemFill))
         }
     }
 }
@@ -41,10 +42,10 @@ import PreviewHelpers
 struct TableRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            Preview { TableRowView(table: .mockTable1) }.frame(maxWidth: 250)
-            Preview { TableRowView(table: .mockTable2) }.frame(maxWidth: 300)
-            Preview { TableRowView(table: .mockTable8) }.frame(maxWidth: 350)
-            Preview { TableRowView(table: .mockTableR1) }.frame(maxWidth: 350)
+            Preview { TableRowView(table: .mockTable1, isSelected: false) }.frame(maxWidth: 250)
+            Preview { TableRowView(table: .mockTable2, isSelected: false) }.frame(maxWidth: 300)
+            Preview { TableRowView(table: .mockTable8, isSelected: false) }.frame(maxWidth: 350)
+            Preview { TableRowView(table: .mockTableR1, isSelected: true) }.frame(maxWidth: 350)
         }
         .padding()
     }

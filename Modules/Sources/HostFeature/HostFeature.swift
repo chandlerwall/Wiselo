@@ -14,17 +14,32 @@ public struct HostFeatureState: Equatable {
         self.sections = sections
         self.tables = tables
         self.searchText = searchText
+
+        self.filterTableGroups()
     }
 
     var rooms: [Room]
     var sections: [SectionPreference] // FIXME: maybe rename to include preferences in name
 //    var statuses: [TableStatus] = [] // FIXME: Should statuses be persisted with feature state?
     var tables: [Table]
-    var expandedGroups: Set<String> = []
+    var selection: String?
+    private(set) var tableGroups: [TableGroup] = []
 
     var searchText: String
 
-    var tableGroups: [TableGroup] {
+    fileprivate mutating func filterTableGroups() {
+        self.selection = nil
+        self.tableGroups = self._tableGroups
+    }
+
+    fileprivate mutating func toggleTableGroupExpansion(_ groupId: TableGroup.ID) {
+        guard let index = self.tableGroups.firstIndex(where: { $0.id == groupId })
+        else { return }
+
+        self.tableGroups[index].isExpanded.toggle()
+    }
+
+    private var _tableGroups: [TableGroup] {
         // FIXME: Consider sorting logic (sort by total available?)
         [self.firstAvailable] + self.tablesByRoom + self.tablesBySection
     }
@@ -66,7 +81,8 @@ public enum HostFeatureAction: Equatable {
     case reload
     case restaurantResponse(Result<Restaurant, APIError>)
     case setSearchText(String)
-    case onToggleGroupExpansion(groupId: String)
+    case toggleGroupExpansion(TableGroup.ID)
+    case selectTable(TableGroup.ID, Table.ID)
     case didReceiveTableStatus(TableStatus)
 }
 
@@ -112,6 +128,7 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
         state.sections = restaurant.sections
 //        state.statuses = restaurant.statuses
         state.tables = restaurant.tables
+        state.filterTableGroups()
         return .none
 
     case .restaurantResponse(.failure(_)):
@@ -121,9 +138,16 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
     case let .setSearchText(searchText):
         // FIXME: Only allow digits.
         state.searchText = searchText
+        state.filterTableGroups()
         return .none
 
-    case let .onToggleGroupExpansion(groupId):
+    case let .toggleGroupExpansion(groupId):
+        state.toggleTableGroupExpansion(groupId)
+        return .none
+
+    case let .selectTable(groupId, tableId):
+        let selectionId = groupId + tableId
+        state.selection = selectionId == state.selection ? nil : selectionId // FIXME: Document; clear selection on second tap
         return .none
 
     case .didReceiveTableStatus(_):
@@ -139,7 +163,7 @@ extension HostFeatureState {
         rooms: .mock,
         sections: .mock,
         tables: .mock,
-        searchText: ""
+        searchText: "3"
     )
 }
 

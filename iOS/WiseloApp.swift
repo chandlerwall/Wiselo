@@ -26,7 +26,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-//        UITableView.appearance().sectionHeaderTopPadding = .zero
         ViewStore(self.store).send(.didFinishLaunching)
         return true
     }

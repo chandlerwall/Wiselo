@@ -1,11 +1,11 @@
 ##### Next, Next Steps
-- [ ] Connect `TextField` with party size to reducer
+- [x] Connect `TextField` with party size to reducer
 
 ##### Next Steps
 - [x] Complete logic for first available table suggestions
-- [ ] Include logic to track selected table
-- [ ] Introduce mechanism to collapse and expand section headers
-- [ ] Improve styling within list view to better reflect card design in Figma
+- [x] Include logic to track selected table
+- [x] Introduce mechanism to collapse and expand section headers
+- [x] Improve styling within list view to better reflect card design in Figma
 
 ##### Next Steps
 - [x] Introduce basic `HostService` with endpoints that return model responses

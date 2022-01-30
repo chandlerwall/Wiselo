@@ -1,17 +1,27 @@
-struct TableGroup: Equatable, Identifiable {
+public struct TableGroup: Equatable, Identifiable {
+
+    public init(
+        type: `Type`,
+        tables: [Table]
+    ) {
+        self.type = type
+        self.tables = tables
+        self.isExpanded = type == .firstAvailable || tables.count == 1
+    }
+
     let type: `Type` // FIXME: private
     let tables: [Table]
-    let isExpanded: Bool = true // FIXME: Allow group to be toggled.
+    var isExpanded: Bool
 
-    var id: String { self.type.id }
+    public var id: String { self.type.id }
     var name: String { self.type.name }
 
-    enum `Type`: Equatable, Identifiable {
+    public enum `Type`: Equatable, Identifiable {
         case firstAvailable
         case room(Room)
         case section(SectionPreference)
 
-        var id: String {
+        public var id: String {
             switch self {
             case .firstAvailable:
                 return "firstAvailable"
