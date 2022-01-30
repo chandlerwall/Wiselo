@@ -1,3 +1,9 @@
+##### Next Steps
+- [ ] Cleanup unused code and unnecessary scaffolding
+- [ ] Simplify reducer structure
+- [ ] Review and remove FIXME comments
+- [ ] Update documentation, including code comments regarding extensibility
+
 ##### Next, Next Steps
 - [x] Connect `TextField` with party size to reducer
 
