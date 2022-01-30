@@ -29,8 +29,9 @@ public struct HostView: View {
                 placeholder: "# of Guests",
                 text: .constant("")
             )
+            .padding()
 
-            GroupedTableListView(tableGroups: self.viewStore.tableGroups)
+            TableGroupListView(tableGroups: self.viewStore.tableGroups)
         }
     }
 }
@@ -44,7 +45,7 @@ struct HostView_Previews: PreviewProvider {
         DevicePreview {
             HostView(
                 store: Store(
-                    initialState: .init(),
+                    initialState: .mock,
                     reducer: Reducer<HostFeatureState, HostFeatureAction, Void>.empty,
                     environment: ()
                 )

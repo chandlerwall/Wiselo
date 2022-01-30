@@ -1,5 +1,5 @@
-struct SectionPreference: Equatable, Identifiable {
-    let id: String
+public struct SectionPreference: Equatable, Identifiable {
+    public let id: String
     let name: String
 }
 
@@ -11,3 +11,18 @@ extension SectionPreference {
         )
     }
 }
+
+#if DEBUG
+
+extension SectionPreference {
+    static let mockBooth = SectionPreference(id: "1", name: "Booth")
+    static let mockHighTop = SectionPreference(id: "2", name: "High Top")
+    static let mockIndoor = SectionPreference(id: "3", name: "Indoor")
+    static let mockOutdoor = SectionPreference(id: "4", name: "Outdoor")
+}
+
+extension Array where Element == SectionPreference {
+    static let mock: Self = [.mockBooth, .mockHighTop, .mockIndoor, .mockOutdoor]
+}
+
+#endif

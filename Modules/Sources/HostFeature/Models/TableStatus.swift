@@ -7,6 +7,7 @@ public struct TableStatus: Equatable, Identifiable {
 
 extension TableStatus {
     init?(from response: TableStatusResponse) {
+        // FIXME: Consider returning nil if deleted.
         guard let status = Table.Status(stringValue: response.status) else { return nil }
 
         self.init(

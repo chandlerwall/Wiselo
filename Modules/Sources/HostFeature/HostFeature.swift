@@ -4,16 +4,25 @@ import Core
 
 public struct HostFeatureState: Equatable {
 
-    public init() { }
+    public init(
+        rooms: [Room] = [],
+        sections: [SectionPreference] = [],
+        tables: [Table] = [],
+        searchText: String = ""
+    ) {
+        self.rooms = rooms
+        self.sections = sections
+        self.tables = tables
+        self.searchText = searchText
+    }
 
-    // FIXME: variable; use real state for each property.
-    var rooms: [Room] = []
-    var sections: [SectionPreference] = [] // FIXME: maybe rename to include preferences in name
-//    var statuses: [TableStatus] = []
+    var rooms: [Room]
+    var sections: [SectionPreference] // FIXME: maybe rename to include preferences in name
+//    var statuses: [TableStatus] = [] // FIXME: Should statuses be persisted with feature state?
 
-    var tables: [Table] = []
+    var tables: [Table]
 
-    var searchText: String = ""
+    var searchText: String
 
     var tablesByRoom: [TableGroup] {
         self.rooms.map { room in
@@ -46,7 +55,6 @@ public struct HostFeatureState: Equatable {
 public enum HostFeatureAction: Equatable {
     case reload
     case restaurantResponse(Result<RestaurantState, APIError>)
-    case roomResponse(Result<[Room], APIError>)
     case didReceiveTableStatus(TableStatus)
 }
 
@@ -88,6 +96,7 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
             .map(HostFeatureAction.restaurantResponse)
 
     case let .restaurantResponse(.success(restaurant)):
+        // FIXME: Prefer sorting in View if practical (more consistent results between features and previews).
         state.rooms = restaurant.rooms.sorted(on: \.name)
         state.sections = restaurant.sections.sorted(on: \.name)
 //        state.statuses = restaurant.statuses
@@ -97,9 +106,6 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
 
     case .restaurantResponse(.failure(_)):
         // FIXME: Handle errors.
-        return .none
-
-    case .roomResponse(_):
         return .none
 
     case .didReceiveTableStatus(_):
@@ -171,3 +177,27 @@ struct TableGroup: Equatable, Identifiable {
         }
     }
 }
+
+#if DEBUG
+
+extension TableGroup {
+    static let mockFirstAvailable = TableGroup(type: .firstAvailable, tables: [.mockTable1])
+    static let mockRoomMain = TableGroup(type: .room(.mockMainDining), tables: [.mockTable1, .mockTable2])
+    static let mockRoomPatio = TableGroup(type: .room(.mockPatio), tables: [.mockTable8, .mockTableR1])
+    static let mockSectionIndoor = TableGroup(type: .section(.mockIndoor), tables: [.mockTable1])
+}
+
+#endif
+
+
+#if DEBUG
+
+extension HostFeatureState {
+    static let mock = HostFeatureState(
+        rooms: .mock,
+        sections: .mock,
+        tables: .mock
+    )
+}
+
+#endif

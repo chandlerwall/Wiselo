@@ -1,10 +1,10 @@
-struct Table: Equatable, Identifiable {
-    let id: String
-    let roomId: String // FIXME: Use Room type.
+public struct Table: Equatable, Identifiable {
+    public let id: String
+    let roomId: String // FIXME: Use Room type?
     let preferenceIds: Set<String> // FIXME: Use SectionPreference type.
     let name: String
     var status: Status
-    let minCapacity: Int // FIXME: Consider Range for capacity
+    let minCapacity: Int // FIXME: Consider Range for capacity.
     let maxCapacity: Int
 
     enum Status: Equatable {
@@ -16,18 +16,6 @@ struct Table: Equatable, Identifiable {
 }
 
 extension Table {
-    init(from response: TableResponse) {
-        self.init(
-            id: String(response.table_id),
-            roomId: String(response.room_id),
-            preferenceIds: Set(response.preference_ids.map(String.init)),
-            name: response.name,
-            status: .open,
-            minCapacity: response.min_capacity,
-            maxCapacity: response.max_capacity
-        )
-    }
-
     init(tableResponse: TableResponse, statusResponses: [TableStatusResponse]) {
         let status = statusResponses.compactMap(TableStatus.init(from:)).filter { !$0.deleted }.last?.status
         self.init(
@@ -62,3 +50,53 @@ extension Table.Status {
         }
     }
 }
+
+#if DEBUG
+
+extension Table {
+    static let mockTable1 = Table(
+        id: "1",
+        roomId: "1",
+        preferenceIds: ["2", "3"],
+        name: "1",
+        status: .seated,
+        minCapacity: 1,
+        maxCapacity: 2
+    )
+
+    static let mockTable2 = Table(
+        id: "2",
+        roomId: "1",
+        preferenceIds: ["2", "3"],
+        name: "2",
+        status: .seated,
+        minCapacity: 2,
+        maxCapacity: 2
+    )
+
+    static let mockTable8 = Table(
+        id: "8",
+        roomId: "1",
+        preferenceIds: ["3"],
+        name: "8",
+        status: .open,
+        minCapacity: 6,
+        maxCapacity: 10
+    )
+
+    static let mockTableR1 = Table(
+        id: "21",
+        roomId: "3",
+        preferenceIds: ["4"],
+        name: "R1",
+        status: .seated,
+        minCapacity: 5,
+        maxCapacity: 10
+    )
+}
+
+extension Array where Element == Table {
+    static let mock: Self = [.mockTable1, .mockTable2, .mockTable8, .mockTableR1]
+}
+
+#endif
