@@ -1,8 +1,14 @@
 ##### Next Steps
-- [ ] Introduce basic `HostService` with endpoints that return model responses
-- [ ] Introduce transforming initializers for each response/model
-- [ ] Introduce transforming publisher to coordinate `HostService` endpoints
-- [ ] Connect `HostService` into startup sequence
+- [ ] Complete logic for first available table suggestions
+- [ ] Include logic to track selected table
+- [ ] Introduce mechanism to collapse and expand section headers
+- [ ] Improve styling within list view to better reflect card design in Figma
+
+##### Next Steps
+- [x] Introduce basic `HostService` with endpoints that return model responses
+- [x] Introduce transforming initializers for each response/model
+- [x] Introduce transforming publisher to coordinate `HostService` endpoints
+- [x] Connect `HostService` into startup sequence
 
 ##### Next Steps
 - [x] Introduce placeholder views with mock data for the main screen
