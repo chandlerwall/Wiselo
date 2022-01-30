@@ -24,7 +24,24 @@ public struct HostFeatureState: Equatable {
 
     var searchText: String
 
-    var tablesByRoom: [TableGroup] {
+    var tableGroups: [TableGroup] {
+        // FIXME: Consider sorting logic (sort by total available?)
+        [self.firstAvailable] + self.tablesByRoom + self.tablesBySection
+    }
+
+    private var firstAvailable: TableGroup {
+        let partySize = Int(self.searchText) ?? 0
+        let tables = partySize > 0
+            ? self.tables.filter { $0.minCapacity >= partySize && $0.maxCapacity <= partySize }
+            : self.tables
+
+        // FIXME: Limit to top 3 tables. Sort before prefixing.
+        let availableTables = tables.filter(\.status.isAvailable)
+
+        return TableGroup(type: .firstAvailable, tables: availableTables)
+    }
+
+    private var tablesByRoom: [TableGroup] {
         self.rooms.map { room in
             TableGroup(
                 type: .room(room),
@@ -33,7 +50,7 @@ public struct HostFeatureState: Equatable {
         }
     }
 
-    var tablesBySection: [TableGroup] {
+    private var tablesBySection: [TableGroup] {
         self.sections.map { section in
             TableGroup(
                 type: .section(section),
@@ -41,20 +58,11 @@ public struct HostFeatureState: Equatable {
             )
         }
     }
-
-    var tableGroups: [TableGroup] {
-        // FIXME: Consider sorting logic (sort by total available?)
-        // FIXME: Consider impact of user search query.
-        self.tablesByRoom + self.tablesBySection
-    }
-
-    // available tables
-    // search results
 }
 
 public enum HostFeatureAction: Equatable {
     case reload
-    case restaurantResponse(Result<RestaurantState, APIError>)
+    case restaurantResponse(Result<Restaurant, APIError>)
     case didReceiveTableStatus(TableStatus)
 }
 
@@ -70,14 +78,14 @@ public struct HostEnvironment {
     let hostService: HostService
     let mainQueue: AnySchedulerOf<DispatchQueue>
 
-    func restaurant() -> Effect<RestaurantState, APIError> {
+    func restaurant() -> Effect<Restaurant, APIError> {
         Publishers.Zip4(
             self.hostService.rooms(),
             self.hostService.sectionPreferences(),
             self.hostService.tables(),
             self.hostService.tableStatuses()
         )
-        .map(RestaurantState.init(from:))
+        .map(Restaurant.init(from:))
         .eraseToEffect()
     }
 }
@@ -100,7 +108,7 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
         state.rooms = restaurant.rooms.sorted(on: \.name)
         state.sections = restaurant.sections.sorted(on: \.name)
 //        state.statuses = restaurant.statuses
-        state.tables = restaurant.tables.sorted(on: \.name)
+        state.tables = restaurant.tables.sorted(on: \.name) // FIXME: tables should be sorted on capacity
         // FIXME: Filter data? Remove deleted tables. Ignore closed tables.
         return .none
 
@@ -112,82 +120,6 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
         return .none
     }
 }
-
-typealias RestaurantResponse = (rooms: [RoomResponse], sections: [SectionPreferenceResponse], tables: [TableResponse], statuses: [TableStatusResponse])
-
-public struct RestaurantState: Equatable {
-    // FIXME: Move into better location.
-    let rooms: [Room]
-    let sections: [SectionPreference]
-    let tables: [Table]
-//    let statuses: [TableStatus]
-}
-
-extension RestaurantState {
-    init(from response: RestaurantResponse) {
-        let rooms = response.rooms.map(Room.init(from:))
-        let sections = response.sections.map(SectionPreference.init(from:))
-        let tables = response.tables.map { tableResponse in
-            Table(
-                tableResponse: tableResponse,
-                statusResponses: response.statuses.filter { $0.table_id == tableResponse.table_id }
-            )
-        }
-
-        self.init(rooms: rooms, sections: sections, tables: tables)
-    }
-}
-
-struct TableGroup: Equatable, Identifiable {
-    let type: `Type` // FIXME: private
-    let tables: [Table]
-
-    var id: String { self.type.id }
-    var name: String { self.type.name }
-
-    enum `Type`: Equatable, Identifiable {
-        case firstAvailable
-        case room(Room)
-        case section(SectionPreference)
-
-        var id: String {
-            switch self {
-            case .firstAvailable:
-                return "firstAvailable"
-
-            case let .room(room):
-                return "room" + room.id
-
-            case let .section(section):
-                return "section" + section.id
-            }
-        }
-
-        var name: String {
-            switch self {
-            case .firstAvailable:
-                return "First Available"
-
-            case let .room(room):
-                return room.name
-
-            case let .section(section):
-                return section.name
-            }
-        }
-    }
-}
-
-#if DEBUG
-
-extension TableGroup {
-    static let mockFirstAvailable = TableGroup(type: .firstAvailable, tables: [.mockTable1])
-    static let mockRoomMain = TableGroup(type: .room(.mockMainDining), tables: [.mockTable1, .mockTable2])
-    static let mockRoomPatio = TableGroup(type: .room(.mockPatio), tables: [.mockTable8, .mockTableR1])
-    static let mockSectionIndoor = TableGroup(type: .section(.mockIndoor), tables: [.mockTable1])
-}
-
-#endif
 
 
 #if DEBUG

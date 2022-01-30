@@ -68,7 +68,7 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ],
             resources: [
-                .process("Resources"),
+                .process("Models/Resources"),
             ]
         ),
         .target(

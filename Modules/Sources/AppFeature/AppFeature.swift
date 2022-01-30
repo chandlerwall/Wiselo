@@ -14,7 +14,7 @@ public struct AppFeatureState: Equatable {
 
 public enum AppFeatureAction: Equatable {
     case didFinishLaunching
-    case restaurantResponse(Result<RestaurantState, APIError>)
+    case restaurantResponse(Result<Restaurant, APIError>)
 
     case host(HostFeatureAction)
 }

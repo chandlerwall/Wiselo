@@ -9,9 +9,31 @@ public struct Table: Equatable, Identifiable {
 
     enum Status: Equatable {
         case open
-        case seated
         case dirty
+        case seated
         case closed
+
+        var isAvailable: Bool {
+            switch self {
+            case .open, .dirty:
+                return true
+            case .seated, .closed:
+                return false
+            }
+        }
+
+        var priority: Int {
+            switch self {
+            case .open:
+                return 1
+            case .dirty:
+                return 2
+            case .seated:
+                return 3
+            case .closed:
+                return 4
+            }
+        }
     }
 }
 
@@ -35,13 +57,10 @@ extension Table.Status {
         switch stringValue.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) {
         case "closed":
             self = .closed
-
         case "dirty":
             self = .dirty
-
         case "open":
             self = .open
-
         case "seated":
             self = .seated
 
