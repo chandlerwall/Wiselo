@@ -1,6 +1,6 @@
 # Wiselo
 
-Wiselo is a toy application that demonstrates Swift, SwiftUI, Combine, and swift-composable-architecture concepts through a simple user interace.
+Wiselo is a toy application that demonstrates Swift, SwiftUI, Combine, and [swift-composable-architecture](https://github.com/pointfreeco/swift-composable-architecture) concepts through a simple user interace. The application targets iOS 15 to explore the latest SwiftUI enhancements (e.g., `ToolbarItemPlacement.keyboard` and `@FocusState`).
 
 | Light | Dark |
 | :---: | :---: |
@@ -31,3 +31,8 @@ The project's structure mirrors the project's architecture.
 ## Xcode Previews
 
 Xcode previews are available for the various SwiftUI views. Xcode requires the scheme associated with the preview file to be active. For example, the previews within `Moduels/Sources/AppFeature/AppView.swift` are only available when `AppFeature` is the active scheme.
+
+## Limitations
+- Keyboard management is cumbersome within SwiftUI apps; some basic considerations have been included, but there's room for improvement
+- The design and types support mutations, but the toy nature lacks any meaningful editing or persistence (the data never changes)
+- The project is configured to run on iPhones; the Views will adaptively scale, but nothing has been tested on iPad destinations
