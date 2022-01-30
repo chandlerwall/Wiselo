@@ -1,5 +1,11 @@
 `AppView`
 
+![[attachments/Pasted image 20220130160426.png]]
+
+![[attachments/Pasted image 20220130160514.png]]
+
+`AppView` ~ `87d166d8d5f4d844009c745e93ee64d18bd24684`
+
 ![[attachments/Pasted image 20220129234615.png]]
 
 ![[attachments/Pasted image 20220129234643.png]]
