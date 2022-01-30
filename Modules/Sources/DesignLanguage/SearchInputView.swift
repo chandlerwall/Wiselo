@@ -22,7 +22,8 @@ public struct SearchInputView: View {
             text: self.$text,
             prompt: self.placeholder.map(Text.init)
         )
-            .textFieldStyle(.roundedBorder)
+        .font(.title)
+        .textFieldStyle(.roundedBorder)
             // FIXME: Update font color to improve legibility (light and dark mode)
     }
 }

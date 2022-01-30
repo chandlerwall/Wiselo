@@ -5,9 +5,11 @@ import SwiftUI
 public struct HostView: View {
 
     struct ViewState: Equatable {
+        let searchText: String
         let tableGroups: [TableGroup]
 
         init(state: HostFeatureState) {
+            self.searchText = state.searchText
             self.tableGroups = state.tableGroups
         }
     }
@@ -27,12 +29,14 @@ public struct HostView: View {
             SearchInputView(
                 title: "Search Input - Number of Guests",
                 placeholder: "# of Guests",
-                text: .constant("")
+                text: self.viewStore.binding(get: \.searchText, send: { .setSearchText($0) })
             )
+            .keyboardType(.numberPad)
             .padding()
 
             TableGroupListView(tableGroups: self.viewStore.tableGroups)
         }
+        .background(Color(UIColor.systemGroupedBackground))
     }
 }
 

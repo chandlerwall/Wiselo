@@ -35,6 +35,10 @@ public struct Table: Equatable, Identifiable {
             }
         }
     }
+
+    static func suggestedTablesSort(lhs: Self, rhs: Self) -> Bool {
+        (lhs.status.priority, lhs.maxCapacity, lhs.minCapacity, lhs.name) < (rhs.status.priority, rhs.maxCapacity, rhs.minCapacity, rhs.name)
+    }
 }
 
 extension Table {
@@ -70,6 +74,14 @@ extension Table.Status {
     }
 }
 
+extension Array where Element == Table {
+    // FIXME: Document; consider renaming to suggestions or topSuggested
+    var suggested: Self {
+        self.filter(\.status.isAvailable)
+            .sorted(by: Table.suggestedTablesSort(lhs:rhs:))
+    }
+}
+
 #if DEBUG
 
 extension Table {
@@ -89,8 +101,8 @@ extension Table {
         preferenceIds: ["2", "3"],
         name: "2",
         status: .seated,
-        minCapacity: 2,
-        maxCapacity: 2
+        minCapacity: 1,
+        maxCapacity: 1
     )
 
     static let mockTable8 = Table(
@@ -101,6 +113,16 @@ extension Table {
         status: .open,
         minCapacity: 6,
         maxCapacity: 10
+    )
+
+    static let mockTable9 = Table(
+        id: "9",
+        roomId: "1",
+        preferenceIds: ["2", "3"],
+        name: "9",
+        status: .dirty,
+        minCapacity: 1,
+        maxCapacity: 1
     )
 
     static let mockTableR1 = Table(
@@ -115,7 +137,7 @@ extension Table {
 }
 
 extension Array where Element == Table {
-    static let mock: Self = [.mockTable1, .mockTable2, .mockTable8, .mockTableR1]
+    static let mock: Self = [.mockTable1, .mockTable2, .mockTable8, .mockTable9, .mockTableR1]
 }
 
 #endif

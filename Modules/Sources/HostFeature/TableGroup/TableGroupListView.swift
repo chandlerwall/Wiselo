@@ -8,16 +8,27 @@ struct TableGroupListView: View {
         List {
             ForEach(self.tableGroups) { group in
                 Section {
-                    ForEach(group.tables) { table in
-                        TableRowView(table: table)
+                    if group.isExpanded {
+                        ForEach(group.tables) { table in
+                            TableRowView(table: table)
+                                .padding(.horizontal)
+                                .padding(.bottom)
+                                .listRowInsets(.zero)
+                                .listRowSeparator(.hidden)
+                                .listRowBackground(Color.clear)
+                        }
                     }
                 } header: {
                     // FIXME: Collapsible header
                     TableGroupSectionHeaderView(tableGroup: group)
+                        .padding(.horizontal)
+                        .listRowInsets(.zero)
                 }
+                .listSectionSeparator(.visible, edges: .bottom)
+                .textCase(nil)
             }
         }
-        .listStyle(.plain)
+        .listStyle(.grouped)
     }
 }
 
@@ -37,7 +48,7 @@ struct GroupedTableListView_Previews: PreviewProvider {
                 ]
             )
         }
-        .frame(maxHeight: 500)
+        .frame(maxHeight: 600)
     }
 }
 

@@ -6,12 +6,15 @@ struct TableRowView: View {
 
     var body: some View {
         HStack {
-            (
+            Group {
                 Text(self.table.name)
                     .font(.headline)
 
-                + Text(" - Host Name")
-            )
+                if self.table.status == .dirty {
+                    Image(systemName: "tornado")
+                        .font(.caption)
+                }
+            }
             .foregroundColor(.secondary)
 
             Spacer()
@@ -22,6 +25,11 @@ struct TableRowView: View {
             )
             .foregroundColor(.primary)
             .font(.headline.monospacedDigit())
+        }
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 5)
+                .foregroundColor(Color(UIColor.secondarySystemFill))
         }
     }
 }
@@ -38,6 +46,7 @@ struct TableRowView_Previews: PreviewProvider {
             Preview { TableRowView(table: .mockTable8) }.frame(maxWidth: 350)
             Preview { TableRowView(table: .mockTableR1) }.frame(maxWidth: 350)
         }
+        .padding()
     }
 }
 

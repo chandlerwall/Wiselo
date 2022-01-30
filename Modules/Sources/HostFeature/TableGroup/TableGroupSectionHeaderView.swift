@@ -7,6 +7,8 @@ struct TableGroupSectionHeaderView: View {
     var body: some View {
         let count = self.tableGroup.tables.count
 
+        // FIXME: Move VStack and divider into here?
+
         HStack {
             Image(systemName: "circle.fill")
                 .resizable()

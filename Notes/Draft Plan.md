@@ -1,5 +1,8 @@
+##### Next, Next Steps
+- [ ] Connect `TextField` with party size to reducer
+
 ##### Next Steps
-- [ ] Complete logic for first available table suggestions
+- [x] Complete logic for first available table suggestions
 - [ ] Include logic to track selected table
 - [ ] Introduce mechanism to collapse and expand section headers
 - [ ] Improve styling within list view to better reflect card design in Figma

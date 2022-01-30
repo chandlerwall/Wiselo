@@ -1,8 +1,7 @@
 struct TableGroup: Equatable, Identifiable {
     let type: `Type` // FIXME: private
     let tables: [Table]
-
-    // FIXME: var isExpanded (default to true for the first available)
+    let isExpanded: Bool = true // FIXME: Allow group to be toggled.
 
     var id: String { self.type.id }
     var name: String { self.type.name }
@@ -44,7 +43,7 @@ struct TableGroup: Equatable, Identifiable {
 
 extension TableGroup {
     static let mockFirstAvailable = TableGroup(type: .firstAvailable, tables: [.mockTable1])
-    static let mockRoomMain = TableGroup(type: .room(.mockMainDining), tables: [.mockTable1, .mockTable2])
+    static let mockRoomMain = TableGroup(type: .room(.mockMainDining), tables: [.mockTable1, .mockTable2, .mockTable9])
     static let mockRoomPatio = TableGroup(type: .room(.mockPatio), tables: [.mockTable8, .mockTableR1])
     static let mockSectionIndoor = TableGroup(type: .section(.mockIndoor), tables: [.mockTable1])
 }
