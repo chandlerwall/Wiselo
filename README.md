@@ -2,9 +2,9 @@
 
 Wiselo is a toy application that demonstrates Swift, SwiftUI, Combine, and swift-composable-architecture concepts through a simple user interace.
 
-| Wiselo (light) | Wiselo (dark) |
-| -------------- | ------------- |
-| ![](/Notes/attachments/Pasted image 20220130170724.png) |  ![](/Notes/attachments/Pasted image 20220130170734.png) |
+| Light | Dark |
+| :---: | :---: |
+| ![](/Notes/attachments/Pasted%20image%2020220130170724.png) |  ![](/Notes/attachments/Pasted%20image%2020220130170734.png) |
 
 ## Getting Started
 
