@@ -7,12 +7,10 @@ import SwiftUI
 public struct AppView: View {
 
     struct ViewState: Equatable {
-        let welcomeMessage: String
-        let status: LoadingStatus
+        let startupStatus: StartupStatus
 
         init(state: AppFeatureState) {
-            self.welcomeMessage = state.welcomeMessage
-            self.status = state.status
+            self.startupStatus = state.startupStatus
         }
     }
 
@@ -27,19 +25,56 @@ public struct AppView: View {
     }
 
     public var body: some View {
-        // FIXME: Implement loading/startup message or remove unnecessary hierarchy.
-        IfLetStore(
-            self.store.scope(
-                state: \.host,
-                action: { .host($0) }
-            )
-        ) { hostStore in
-            HostView(store: hostStore)
-        } else: {
-            Text(self.viewStore.welcomeMessage)
+        ZStack {
+            switch self.viewStore.startupStatus {
+            case .uninitialized, .initializing, .restoring:
+                Image(systemName: "sparkles")
+                    .font(.largeTitle)
+
+            case .refreshing, .preparing:
+                VStack {
+                    Text("Welcome back, firstName!")
+                        .padding(.horizontal)
+
+                    Group {
+                    if self.viewStore.startupStatus == .refreshing {
+                        ProgressView()
+                            .padding()
+                    } else {
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(.green)
+                            .padding()
+                    }
+                    }
+                    .frame(height: 50)
+                }
                 .font(.largeTitle)
-                .padding()
-                .loading(self.viewStore.status)
+                .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
+
+            case .done:
+                IfLetStore(
+                    self.store.scope(
+                        state: \.host,
+                        action: { .host($0) }
+                    )
+                ) { hostStore in
+                    HostView(store: hostStore)
+                        .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
+                } else: {
+                    Spacer() // FIXME: Not spacer
+                }
+
+            case let .error(message):
+                VStack {
+                    Image(systemName: "exclamationmark.circle")
+                        .font(.largeTitle)
+                        .foregroundColor(.red)
+                        .padding()
+
+                    Text(message)
+                        .font(.title3)
+                }
+            }
         }
     }
 }
@@ -50,14 +85,28 @@ import PreviewHelpers
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
-        DevicePreview {
-            AppView(
+        func buildPreview(_ status: StartupStatus) -> some View {
+            var initialState = AppFeatureState()
+            initialState.startupStatus = status
+            initialState.host = .mock
+
+            // FIXME: Document ZStack.
+            return AppView(
                 store: Store(
-                    initialState: .init(),
+                    initialState: initialState,
                     reducer: Reducer<AppFeatureState, AppFeatureAction, Void>.empty,
                     environment: ()
                 )
             )
+        }
+
+        return Group {
+            DevicePreview { buildPreview(.done) }
+            DevicePreview { buildPreview(.uninitialized) }
+            DevicePreview { buildPreview(.restoring) }
+            DevicePreview { buildPreview(.refreshing) }
+            DevicePreview { buildPreview(.preparing) }
+            DevicePreview { buildPreview(.error(message: "Uh oh!")) }
         }
     }
 }

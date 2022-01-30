@@ -9,7 +9,7 @@ private struct LoadingViewModifier: ViewModifier {
         switch self.status {
             // FIXME: Implement loading view, error view, placeholder view, and unavailable view.
         case .uninitialized:
-            content
+            Spacer()
 
         case .loading:
             ProgressView()
@@ -20,10 +20,6 @@ private struct LoadingViewModifier: ViewModifier {
 
         case .error:
             content
-
-        case .unavailable:
-            content
-
         }
     }
 }

@@ -123,11 +123,11 @@ public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, Void> = Red
 #if DEBUG
 
 extension HostFeatureState {
-    static let mock = HostFeatureState(
+    public static let mock = HostFeatureState(
         rooms: .mock,
         sections: .mock,
         tables: .mock,
-        searchText: "3"
+        searchText: ""
     )
 }
 

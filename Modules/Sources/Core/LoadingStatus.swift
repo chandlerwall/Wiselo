@@ -3,5 +3,4 @@ public enum LoadingStatus: Equatable {
     case loading
     case done
     case error
-    case unavailable
 }

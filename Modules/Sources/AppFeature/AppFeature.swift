@@ -7,15 +7,19 @@ public struct AppFeatureState: Equatable {
 
     public init() { }
 
-    let welcomeMessage: String = "Hello!" // FIXME: Remove or repurpose to describe loading process.
-    var status: LoadingStatus = .uninitialized
-
+    var startupStatus: StartupStatus = .uninitialized // FIXME: rename to status.
     var host: HostFeatureState?
 }
 
 public enum AppFeatureAction: Equatable {
     case didFinishLaunching
+
+    case initialize
+    case restoreSession
+    case refreshData
     case restaurantResponse(Result<Restaurant, APIError>)
+    case prepareToLaunch
+    case launch
 
     case host(HostFeatureAction)
 }
@@ -58,21 +62,41 @@ private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnviro
 { state, action, environment in
     switch action {
     case .didFinishLaunching:
-        state.status = .loading
+        state.startupStatus = .uninitialized
+        return Effect(value: .initialize).deferred(for: 0.25, scheduler: environment.mainQueue.animation())
+
+    case .initialize:
+        state.startupStatus = .initializing
+        return Effect(value: .restoreSession).deferred(for: 0.25, scheduler: environment.mainQueue.animation())
+
+    case .restoreSession:
+        state.startupStatus = .restoring
+        return Effect(value: .refreshData).deferred(for: 0.25, scheduler: environment.mainQueue.animation())
+
+    case .refreshData:
+        state.startupStatus = .refreshing
         return environment.restaurant()
-            .deferred(for: 3, scheduler: environment.mainQueue) // FIXME: Document
-            .receive(on: environment.mainQueue)
+            .deferred(for: 1, scheduler: environment.mainQueue) // FIXME: Document
+            //.flatMap { _ in Effect<Restaurant, APIError>(error: APIError.response) } // FIXME: Document.
+            .receive(on: environment.mainQueue.animation())
             .catchToEffect()
             .map(AppFeatureAction.restaurantResponse)
 
     case let .restaurantResponse(.success(restaurant)):
-        state.status = .done
         state.host = .init(restaurant: restaurant)
-        return .none
+        return Effect(value: .prepareToLaunch)
 
     case .restaurantResponse(.failure(_)):
-        state.status = .error
+        state.startupStatus = .error(message: "Unable to refresh.")
         state.host = nil
+        return .none
+
+    case .prepareToLaunch:
+        state.startupStatus = .preparing
+        return Effect(value: .launch).deferred(for: 0.5, scheduler: environment.mainQueue.animation())
+
+    case .launch:
+        state.startupStatus = .done
         return .none
 
     case .host(_):
