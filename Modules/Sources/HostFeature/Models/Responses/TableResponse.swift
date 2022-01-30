@@ -1,4 +1,4 @@
-struct TableResponse: Codable {
+public struct TableResponse: Codable {
     let table_id: Int
     let room_id: Int
     let name: String

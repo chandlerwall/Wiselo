@@ -5,6 +5,18 @@ import Core
 public struct HostFeatureState: Equatable {
 
     public init(
+        restaurant: Restaurant,
+        searchText: String = ""
+    ) {
+        self.init(
+            rooms: restaurant.rooms,
+            sections: restaurant.sections,
+            tables: restaurant.tables,
+            searchText: searchText
+        )
+    }
+
+    public init(
         rooms: [Room] = [],
         sections: [SectionPreference] = [],
         tables: [Table] = [],

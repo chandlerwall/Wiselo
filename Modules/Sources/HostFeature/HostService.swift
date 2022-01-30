@@ -5,7 +5,7 @@ public struct HostService {
 
     public init() { }
 
-    func rooms() -> Effect<[RoomResponse], APIError> {
+    public func rooms() -> Effect<[RoomResponse], APIError> {
         Effect.future { callback in
             guard
                 let url = Bundle.module.url(forResource: "rooms", withExtension: "json"),
@@ -25,7 +25,7 @@ public struct HostService {
         }
     }
 
-    func sectionPreferences() -> Effect<[SectionPreferenceResponse], APIError> {
+    public func sectionPreferences() -> Effect<[SectionPreferenceResponse], APIError> {
         Effect.future { callback in
             guard
                 let url = Bundle.module.url(forResource: "section_preferences", withExtension: "json"),
@@ -45,7 +45,7 @@ public struct HostService {
         }
     }
 
-    func tables() -> Effect<[TableResponse], APIError> {
+    public func tables() -> Effect<[TableResponse], APIError> {
         Effect.future { callback in
             guard
                 let url = Bundle.module.url(forResource: "tables", withExtension: "json"),
@@ -65,7 +65,7 @@ public struct HostService {
         }
     }
 
-    func tableStatuses() -> Effect<[TableStatusResponse], APIError> {
+    public func tableStatuses() -> Effect<[TableStatusResponse], APIError> {
         Effect.future { callback in
             guard
                 let url = Bundle.module.url(forResource: "table_status", withExtension: "json"),
