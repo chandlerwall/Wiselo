@@ -16,7 +16,7 @@ public struct HostView: View {
         }
     }
 
-    @FocusState private var inputIsFocused: Bool // FIXME: FocusState breaks preview
+    @FocusState private var inputIsFocused: Bool // FIXME: Document; FocusState breaks preview
 
     let store: Store<HostFeatureState, HostFeatureAction>
     @ObservedObject var viewStore: ViewStore<ViewState, HostFeatureAction>

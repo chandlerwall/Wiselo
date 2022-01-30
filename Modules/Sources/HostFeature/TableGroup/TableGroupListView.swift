@@ -21,7 +21,6 @@ struct TableGroupListView: View {
                                 )
                                 .padding(.horizontal)
                                 .padding(.bottom)
-//                                .contentShape(Rectangle())
                             }
                             .listRowInsets(.zero)
                             .listRowSeparator(.hidden)
@@ -32,7 +31,6 @@ struct TableGroupListView: View {
                     Button(action: { self.onToggleGroupExpansion(group.id) }) {
                         TableGroupSectionHeaderView(tableGroup: group)
                             .padding(.horizontal)
-                            .contentShape(Rectangle())
                     }
                     .listRowInsets(.zero)
                 }

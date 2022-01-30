@@ -20,7 +20,6 @@ public struct HostFeatureState: Equatable {
 
     var rooms: [Room]
     var sections: [SectionPreference] // FIXME: maybe rename to include preferences in name
-//    var statuses: [TableStatus] = [] // FIXME: Should statuses be persisted with feature state?
     var tables: [Table]
     var selection: String?
     private(set) var tableGroups: [TableGroup] = []
@@ -40,7 +39,6 @@ public struct HostFeatureState: Equatable {
     }
 
     private var _tableGroups: [TableGroup] {
-        // FIXME: Consider sorting logic (sort by total available?)
         [self.firstAvailable] + self.tablesByRoom + self.tablesBySection
     }
 
@@ -136,7 +134,7 @@ private let hostReducerCore: Reducer<HostFeatureState, HostFeatureAction, HostEn
         return .none
 
     case let .setSearchText(searchText):
-        // FIXME: Only allow digits.
+        // FIXME: Document improvement; Only allow digits.
         state.searchText = searchText
         state.filterTableGroups()
         return .none

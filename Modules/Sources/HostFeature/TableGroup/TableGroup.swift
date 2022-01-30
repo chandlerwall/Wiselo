@@ -9,12 +9,12 @@ public struct TableGroup: Equatable, Identifiable {
         self.isExpanded = type == .firstAvailable || tables.count == 1
     }
 
-    let type: `Type` // FIXME: private
-    let tables: [Table]
-    var isExpanded: Bool
+    let type: `Type`
 
     public var id: String { self.type.id }
     var name: String { self.type.name }
+    let tables: [Table]
+    var isExpanded: Bool
 
     public enum `Type`: Equatable, Identifiable {
         case firstAvailable

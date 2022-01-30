@@ -2,7 +2,6 @@ public struct Restaurant: Equatable {
     let rooms: [Room]
     let sections: [SectionPreference]
     let tables: [Table]
-    //    let statuses: [TableStatus] // FIXME: Use or remove statuses
 }
 
 typealias RestaurantResponse = (
