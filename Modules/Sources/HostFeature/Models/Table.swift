@@ -1,10 +1,10 @@
 public struct Table: Equatable, Identifiable {
     public let id: String
-    let roomId: String // FIXME: Use Room type?
-    let preferenceIds: Set<String> // FIXME: Use SectionPreference type.
+    let roomId: String
+    let preferenceIds: Set<String>
     let name: String
     var status: Status
-    let minCapacity: Int // FIXME: Consider Range for capacity.
+    let minCapacity: Int
     let maxCapacity: Int
 
     enum Status: Equatable {
@@ -43,7 +43,7 @@ public struct Table: Equatable, Identifiable {
 
 extension Table {
     init(tableResponse: TableResponse, statusResponses: [TableStatusResponse]) {
-        let status = statusResponses.compactMap(TableStatus.init(from:)).filter { !$0.deleted }.last?.status
+        let status = statusResponses.compactMap(TableStatus.init(from:)).filter { !$0.isDeleted }.last?.status
         self.init(
             id: String(tableResponse.table_id),
             roomId: String(tableResponse.room_id),

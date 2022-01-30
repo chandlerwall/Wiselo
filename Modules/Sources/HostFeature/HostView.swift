@@ -1,5 +1,4 @@
 import ComposableArchitecture
-import DesignLanguage
 import SwiftUI
 
 public struct HostView: View {
@@ -16,8 +15,6 @@ public struct HostView: View {
         }
     }
 
-    @FocusState private var inputIsFocused: Bool // FIXME: FocusState breaks preview
-
     let store: Store<HostFeatureState, HostFeatureAction>
     @ObservedObject var viewStore: ViewStore<ViewState, HostFeatureAction>
 
@@ -27,6 +24,8 @@ public struct HostView: View {
         self.store = store
         self.viewStore = ViewStore(self.store.scope(state: ViewState.init(state:)))
     }
+
+    @FocusState private var inputIsFocused: Bool // FIXME: Document; FocusState breaks preview
 
     public var body: some View {
         VStack {
@@ -44,6 +43,7 @@ public struct HostView: View {
 
                     Button(action: { self.inputIsFocused = false }) {
                         Text("Done")
+                            .font(.subheadline)
                     }
                 }
             }
@@ -60,6 +60,7 @@ public struct HostView: View {
                 onToggleGroupExpansion: { groupId in self.viewStore.send(.toggleGroupExpansion(groupId)) },
                 onSelectTable: { groupId, tableId in self.viewStore.send(.selectTable(groupId, tableId)) }
             )
+            .gesture(DragGesture().onChanged { _ in self.inputIsFocused = false }) // FIXME: Document.
         }
         .background(Color(UIColor.systemGroupedBackground))
     }
@@ -72,13 +73,16 @@ import PreviewHelpers
 struct HostView_Previews: PreviewProvider {
     static var previews: some View {
         DevicePreview {
-            HostView(
-                store: Store(
-                    initialState: .mock,
-                    reducer: Reducer<HostFeatureState, HostFeatureAction, Void>.empty,
-                    environment: ()
+            // FIXME: Document.
+            ZStack {
+                HostView(
+                    store: Store(
+                        initialState: .mock,
+                        reducer: hostReducer,
+                        environment: ()
+                    )
                 )
-            )
+            }
         }
     }
 }

@@ -2,10 +2,9 @@ public struct Restaurant: Equatable {
     let rooms: [Room]
     let sections: [SectionPreference]
     let tables: [Table]
-    //    let statuses: [TableStatus] // FIXME: Use or remove statuses
 }
 
-typealias RestaurantResponse = (
+public typealias RestaurantResponse = (
     rooms: [RoomResponse],
     sections: [SectionPreferenceResponse],
     tables: [TableResponse],
@@ -13,7 +12,7 @@ typealias RestaurantResponse = (
 )
 
 extension Restaurant {
-    init(from response: RestaurantResponse) {
+    public init(from response: RestaurantResponse) {
         let rooms = response.rooms.map(Room.init(from:))
         let sections = response.sections.map(SectionPreference.init(from:))
         let tables = response.tables.map { tableResponse in
