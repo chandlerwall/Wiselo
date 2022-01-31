@@ -17,6 +17,7 @@
 		CBD4A16E27A4B4A700C4735E /* WiseloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiseloApp.swift; sourceTree = "<group>"; };
 		CBD4A17227A4B4A800C4735E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBD4A17F27A4B74B00C4735E /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
+		CBE1014F27A7633900DE32C6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +35,7 @@
 		CBD4A16227A4B4A600C4735E = {
 			isa = PBXGroup;
 			children = (
+				CBE1014F27A7633900DE32C6 /* README.md */,
 				CBD4A17F27A4B74B00C4735E /* Modules */,
 				CBD4A16D27A4B4A700C4735E /* iOS */,
 				CBD4A16C27A4B4A700C4735E /* Products */,

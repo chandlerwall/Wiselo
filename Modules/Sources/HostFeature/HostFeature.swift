@@ -31,7 +31,7 @@ public struct HostFeatureState: Equatable {
     }
 
     var rooms: [Room]
-    var sections: [SectionPreference] // FIXME: maybe rename to include preferences in name
+    var sections: [SectionPreference]
     var tables: [Table]
     var selection: String?
     private(set) var tableGroups: [TableGroup] = []
@@ -100,7 +100,8 @@ public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, Void> = Red
 { state, action, _ in
     switch action {
     case let .setSearchText(searchText):
-        // FIXME: Document improvement; Only allow digits.
+        // TODO: Non-digit characters should be explicitly removed.
+        // - The downstream business logic safely handles non-digits.
         state.searchText = searchText
         state.filterTableGroups()
         return .none
@@ -111,11 +112,16 @@ public let hostReducer: Reducer<HostFeatureState, HostFeatureAction, Void> = Red
 
     case let .selectTable(groupId, tableId):
         let selectionId = groupId + tableId
-        state.selection = selectionId == state.selection ? nil : selectionId // FIXME: Document; clear selection on second tap
+        // NOTE: The active selection is cleared after a repeated tap.
+        state.selection = selectionId == state.selection ? nil : selectionId
         return .none
 
     case .didReceiveTableStatus(_):
-        // FIXME: Document
+        // TODO: Real-time data could be published into this action.
+        // - As table status updates arrive, the updated statuses could be incorporated into feature state.
+        // - As the statuses are incorporated, the updates would propagate into the View.
+        // - To reduce confusion for users, it may be helpful to display no-longer-available tables differently.
+        // - Otherwise, the tables would update in real-time and simply disappear/reappear as the user is tapping/scrolling.
         return .none
     }
 }

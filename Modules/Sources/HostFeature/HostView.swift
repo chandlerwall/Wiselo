@@ -25,7 +25,7 @@ public struct HostView: View {
         self.viewStore = ViewStore(self.store.scope(state: ViewState.init(state:)))
     }
 
-    @FocusState private var inputIsFocused: Bool // FIXME: Document; FocusState breaks preview
+    @FocusState private var inputIsFocused: Bool
 
     public var body: some View {
         VStack {
@@ -60,7 +60,10 @@ public struct HostView: View {
                 onToggleGroupExpansion: { groupId in self.viewStore.send(.toggleGroupExpansion(groupId)) },
                 onSelectTable: { groupId, tableId in self.viewStore.send(.selectTable(groupId, tableId)) }
             )
-            .gesture(DragGesture().onChanged { _ in self.inputIsFocused = false }) // FIXME: Document.
+            // NOTE: ToolbarItemGroup(placement: .keyboard) is unreliable.
+            // - To prevent the number pad keyboard from becoming stuck, the focus is explicitly cleared during scroll-like gestures.
+            // - When the toolbar is working, a "Done" button appears above the number pad (to dismiss the keyboard).
+            .gesture(DragGesture().onChanged { _ in self.inputIsFocused = false })
         }
         .background(Color(UIColor.systemGroupedBackground))
     }
@@ -73,7 +76,9 @@ import PreviewHelpers
 struct HostView_Previews: PreviewProvider {
     static var previews: some View {
         DevicePreview {
-            // FIXME: Document.
+            // NOTE: The presence of `@FocusState` breaks Xcode previews.
+            // - `HostView` must be wrapped with a ZStack to avoid preview crashes during updates.
+            // - This is an Xcode issue and does not impact `HostView` at runtime (simulator or hardware).
             ZStack {
                 HostView(
                     store: Store(

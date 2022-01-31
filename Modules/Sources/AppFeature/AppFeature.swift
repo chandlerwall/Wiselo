@@ -59,6 +59,7 @@ public let appReducer: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment
     appReducerCore
 )
 
+// NOTE: Deferred publishers are only included to simulate latency and mimic natural delays.
 private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnvironment> = Reducer
 { state, action, environment in
     switch action {
@@ -78,8 +79,9 @@ private let appReducerCore: Reducer<AppFeatureState, AppFeatureAction, AppEnviro
     case .refreshData:
         state.status = .refreshing
         return environment.restaurant()
-            .deferred(for: 1.25, scheduler: environment.mainQueue) // FIXME: Document
-            // .flatMap { _ in Effect<Restaurant, APIError>(error: APIError.response) } // FIXME: Document.
+            .deferred(for: 1.25, scheduler: environment.mainQueue)
+            // NOTE: The `.flatMap` modifier below can be uncommented to force an error to occur during startup.
+            // .flatMap { _ in Effect<Restaurant, APIError>(error: APIError.response) }
             .receive(on: environment.mainQueue.animation())
             .catchToEffect()
             .map(AppFeatureAction.restaurantResponse)
