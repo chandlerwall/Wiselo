@@ -22,13 +22,13 @@ Wiselo is a toy application that demonstrates concepts from Swift, SwiftUI, Comb
 
 The project's structure mirrors the project's architecture.
 
-`iOS` contains the entry point of the iOS application: `WiseloApp`. `WiseloApp` is a simple wrapper; all feature-specific functionality is defined in `Modules`.
+`iOS` contains the entry point of the iOS application: `WiseloApp`, a SwiftUI `App`. `WiseloApp` is a simple wrapper; all feature-specific functionality is defined in `Modules`.
 
 `Modules` contains a Swift Package with four libraries: `AppFeature`, `HostFeature`, `Core`, and `PreviewHelpers`. `AppFeature` and `HostFeature` encapsulate a specific feature domain of the application. `Core` and `PreviewHelpers` are utility libraries. The libraries are composed together to produce the overall application.
 
 `Notes` contains various notes that were taken during the process.
 
-## Future Consideration
+## Future Considerations
 
 The main area for extensibility is `AppFeature`. Based on the current functionality, `AppFeature` and `HostFeature` could be consolidated into a single feature. `AppFeature` has been included as a separate feature to demonstrate the extensibility of composable features.
 
@@ -59,7 +59,7 @@ Keyboard management is cumbersome within SwiftUI apps. Some basic considerations
 
 ### Mutability and Persistence
 
-The design and types support mutations, but the toy nature of the application prevents editing or persistence (the data never changes).
+The design and types support mutation, but the toy nature of the application prevents editing or persistence (the data never changes).
 
 ### Additional Device Support
 
