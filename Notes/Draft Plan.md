@@ -1,10 +1,10 @@
 ##### Next Steps
 - [x] Cleanup unused code and unnecessary scaffolding
 - [x] Simplify reducer structure
-- [ ] Review and remove FIXME comments
-- [ ] Update documentation, including code comments regarding extensibility
-- [ ] Include comments regarding persistence and real-time updates to table status
-- [ ] Create repo README with high level tour of the project; include a section with Xcode pitfalls
+- [x] Review and remove FIXME comments
+- [x] Update documentation, including code comments regarding extensibility
+- [x] Include comments regarding persistence and real-time updates to table status
+- [x] Create repo README with high level tour of the project; include a section with Xcode pitfalls
 
 ##### Next, Next Steps
 - [x] Connect `TextField` with party size to reducer
